@@ -10,16 +10,18 @@
   <PropertyGroup>
     <OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\pdb\$(ProjectName)\</IntDir>
-    <IncludePath>$(ExtDir);$(IncDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ExtDir);$(IncDir);$(DDKIncDir);$(IncludePath)</IncludePath>
     <SourcePath>$(DDKLibDir);$(IncludePath);$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <PreprocessorDefinitions>WINNT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WINNT;SAL_SUPP_H;SPECSTRING_SUPP_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
+    <Link />
   </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="ExtDir">
