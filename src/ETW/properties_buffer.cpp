@@ -7,14 +7,12 @@ using ez_etw::kernel_flags;
 using ez_etw::properties_buffer;
 using std::memset;
 
-properties_buffer::properties_buffer(const resolution_speed& speed, const log_mode& mode, const kernel_flags& flags) {
+properties_buffer::properties_buffer(const kernel_flags& flags) {
     const size_t buff_size = sizeof(m_u);
     memset(&m_u, 0, buff_size);
     m_u.m_struct.Wnode.BufferSize = buff_size;
-    m_u.m_struct.Wnode.ClientContext = speed;
-    m_u.m_struct.LoggerNameOffset = buff_size;
-    m_u.m_struct.LogFileNameOffset = buff_size + MAX_STRING_LENGTGH;
-    m_u.m_struct.LogFileMode = mode;
+    m_u.m_struct.LoggerNameOffset = sizeof(m_u.m_struct);
+    m_u.m_struct.LogFileNameOffset = sizeof(m_u.m_struct) + MAX_STRING_LENGTGH;
     if(flags != 0) {
         m_u.m_struct.Wnode.Guid = SystemTraceControlGuid;
     }
