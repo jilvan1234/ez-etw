@@ -15,15 +15,19 @@ namespace ez_etw {
         real_time = 0x00000100
     };
     enum kernel_flags {
+        none = 0,
         process = 0x00000001
     };
 
     struct properties {
-        using properties_buffer_ptr = std::unique_ptr<properties_buffer>;
-        properties(const resolution_speed& speed, const log_mode& mode, const kernel_flags& flags);
-        const properties_buffer_ptr& get_buffer() const;
+        using ptr_type = std::unique_ptr<properties_buffer>;
+        properties(const kernel_flags& flags = kernel_flags::none);
+        ~properties();
+        void set_resolution_speed(const resolution_speed& speed);
+        void set_log_mode(const log_mode& mode);
+        ptr_type::element_type* const get_ptr() const;
     private:
-        properties_buffer_ptr m_buff;
+        ptr_type m_buff;
     };
 }
 
