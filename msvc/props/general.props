@@ -4,6 +4,7 @@
   <PropertyGroup Label="UserMacros">
     <ExtDir>$(SolutionDir)..\..\..\ext\</ExtDir>
     <IncDir>$(SolutionDir)..\..\..\inc\</IncDir>
+    <BinDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</BinDir>
     <DDKIncDir>C:\WinDDK\7600.16385.1\inc\api\</DDKIncDir>
     <DDKLibDir>C:\WinDDK\7600.16385.1\lib\wxp\i386\</DDKLibDir>
   </PropertyGroup>
@@ -12,6 +13,7 @@
     <IntDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\pdb\$(ProjectName)\</IntDir>
     <IncludePath>$(ExtDir);$(IncDir);$(DDKIncDir);$(IncludePath)</IncludePath>
     <SourcePath>$(DDKLibDir);$(IncludePath);$(SourcePath)</SourcePath>
+    <LibraryPath>$(BinDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -29,6 +31,9 @@
     </BuildMacro>
     <BuildMacro Include="IncDir">
       <Value>$(IncDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BinDir">
+      <Value>$(BinDir)</Value>
     </BuildMacro>
     <BuildMacro Include="DDKIncDir">
       <Value>$(DDKIncDir)</Value>

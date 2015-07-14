@@ -16,7 +16,8 @@ namespace ez_etw {
         static const unsigned long BUFFER_SIZE = sizeof(EVENT_TRACE_PROPERTIES) + 2 * (MAX_STRING_LENGTGH);
         using buffer_type = unsigned char[BUFFER_SIZE];
         
-        properties_buffer(const resolution_speed& speed, const log_mode& mode, const kernel_flags& flags);
+        properties_buffer(const kernel_flags& flags);
+        ~properties_buffer() = default;
         buffer_type* const get_buffer();
         EVENT_TRACE_PROPERTIES* const get_struct();
     private:

@@ -15,6 +15,7 @@ properties_buffer::properties_buffer(const kernel_flags& flags) {
     m_u.m_struct.LogFileNameOffset = sizeof(m_u.m_struct) + MAX_STRING_LENGTGH;
     if(flags != 0) {
         m_u.m_struct.Wnode.Guid = SystemTraceControlGuid;
+        m_u.m_struct.EnableFlags = flags;
     }
 }
 
