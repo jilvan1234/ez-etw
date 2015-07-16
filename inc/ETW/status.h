@@ -6,7 +6,8 @@ namespace ez_etw {
         SUCCESS,
         INVALID_ARGUMENT,
         ALREADY_EXIST,
-        NOT_RUNNING
+        NOT_RUNNING,
+        ACCES_DENIED
     };
     status to_status(unsigned int status);
 }

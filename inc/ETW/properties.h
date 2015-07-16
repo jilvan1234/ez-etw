@@ -14,7 +14,7 @@ namespace ez_etw {
     enum log_mode {
         real_time = 0x00000100
     };
-    enum kernel_flags {
+    enum kernel_flags : unsigned long {
         none = 0,
         process = 0x00000001
     };

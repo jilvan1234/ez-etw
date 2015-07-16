@@ -9,7 +9,7 @@
 namespace ez_etw {
     enum resolution_speed;
     enum log_mode;
-    enum kernel_flags;
+    enum kernel_flags : unsigned long;
 
     struct properties_buffer {
         static const unsigned long MAX_STRING_LENGTGH = 1024 * sizeof(wchar_t);
