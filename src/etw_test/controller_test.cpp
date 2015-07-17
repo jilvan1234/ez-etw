@@ -32,8 +32,7 @@ SCENARIO("construction of a controller needs a name") {
 SCENARIO("a controller can be started and stopped") {
     GIVEN("generic arguments") {
         controller ctrl(CONTROLLER_NAME_GENERIC);
-        properties props;
-        props.set_log_mode(log_mode::real_time);
+        properties props(log_mode::real_time);
         THEN("it cannot be stopped if it is not running") {
             REQUIRE_FALSE(ctrl.is_running());
             status ctrl_status(ctrl.stop());
@@ -79,8 +78,7 @@ SCENARIO("starting a controller needs the right properties") {
     GIVEN("the kernel logger name") {
         controller ctrl(controller::KERNEL_NAME);
         WHEN("properties are created with flags") {
-            properties props(kernel_flags::process);
-            props.set_log_mode(log_mode::real_time);
+            properties props(log_mode::real_time, kernel_flags::process);
             THEN("the kernel controller is started") {
                 status ctrl_status(ctrl.start(props));
                 REQUIRE(ctrl_status == status::SUCCESS);
@@ -95,8 +93,7 @@ SCENARIO("starting a controller needs the right properties") {
             }
         }
         WHEN("properties are created without flags") {
-            properties props;
-            props.set_log_mode(log_mode::real_time);
+            properties props(log_mode::real_time);
             THEN("the kernel controller is not started") {
                 status ctrl_status(ctrl.start(props));
                 REQUIRE(ctrl_status == status::INVALID_ARGUMENT);
@@ -111,8 +108,7 @@ SCENARIO("starting a controller needs the right properties") {
             }
         }
         WHEN("properties are created with none flags") {
-            properties props(kernel_flags::none);
-            props.set_log_mode(log_mode::real_time);
+            properties props(log_mode::real_time, kernel_flags::none);
             THEN("the kernel controller is not started") {
                 status ctrl_status(ctrl.start(props));
                 REQUIRE(ctrl_status == status::INVALID_ARGUMENT);
@@ -130,8 +126,7 @@ SCENARIO("starting a controller needs the right properties") {
     GIVEN("a generic name") {
         controller ctrl(CONTROLLER_NAME_GENERIC);
         WHEN("properties are created with flags") {
-            properties props(kernel_flags::process);
-            props.set_log_mode(log_mode::real_time);
+            properties props(log_mode::real_time, kernel_flags::process);
             THEN("the generic controller is started") {
                 status ctrl_status(ctrl.start(props));
                 REQUIRE(ctrl_status == status::INVALID_ARGUMENT);
@@ -146,8 +141,7 @@ SCENARIO("starting a controller needs the right properties") {
             }
         }
         WHEN("properties are created without flags") {
-            properties props;
-            props.set_log_mode(log_mode::real_time);
+            properties props(log_mode::real_time);
             THEN("the generic controller is started") {
                 status ctrl_status(ctrl.start(props));
                 REQUIRE(ctrl_status == status::SUCCESS);
@@ -162,8 +156,7 @@ SCENARIO("starting a controller needs the right properties") {
             }
         }
         AND_WHEN("properties are created with none flags") {
-            properties props(kernel_flags::none);
-            props.set_log_mode(log_mode::real_time);
+            properties props(log_mode::real_time, kernel_flags::none);
             THEN("the generic controller is started") {
                 status ctrl_status(ctrl.start(props));
                 REQUIRE(ctrl_status == status::SUCCESS);

@@ -12,7 +12,7 @@ using ez_etw::log_mode;
 
 SCENARIO("initialization of properties might need flags") {
     GIVEN("no flags are provided") {
-        const properties props;
+        const properties props(log_mode::real_time);
         THEN("it is not a kernel logger") {
             auto buff = props.get_ptr();
             REQUIRE_FALSE(buff == nullptr);
@@ -20,8 +20,7 @@ SCENARIO("initialization of properties might need flags") {
         }
     }
     GIVEN("none flags are provided") {
-        const kernel_flags flags(kernel_flags::none);
-        const properties props(flags);
+        const properties props(log_mode::real_time, kernel_flags::none);
         THEN("it is not a kernel logger") {
             auto buff = props.get_ptr();
             REQUIRE_FALSE(buff == nullptr);
@@ -29,8 +28,7 @@ SCENARIO("initialization of properties might need flags") {
         }
     }
     GIVEN("flags are provided") {
-        const kernel_flags flags(kernel_flags::process);
-        const properties props(flags);
+        const properties props(log_mode::real_time, kernel_flags::process);
         THEN("it is a kernel logger") {
             auto buff = props.get_ptr();
             REQUIRE_FALSE(buff == nullptr);
@@ -40,7 +38,7 @@ SCENARIO("initialization of properties might need flags") {
 }
 
 SCENARIO("different resolution speed are available for the properties") {
-    properties props;
+    properties props(log_mode::real_time);
     GIVEN("low speed is given") {
         resolution_speed speed(resolution_speed::low);
         props.set_resolution_speed(speed);
@@ -71,10 +69,8 @@ SCENARIO("different resolution speed are available for the properties") {
 }
 
 SCENARIO("different log mode are available for the properties") {
-    properties props;
     GIVEN("real time is given") {
-        log_mode mode(log_mode::real_time);
-        props.set_log_mode(mode);
+        properties props(log_mode::real_time);
         THEN("the real time value is in the structure") {
             auto buff = props.get_ptr();
             REQUIRE_FALSE(buff == nullptr);

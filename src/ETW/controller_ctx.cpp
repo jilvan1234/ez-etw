@@ -45,7 +45,7 @@ status controller_ctx::start(const properties& props) {
 status controller_ctx::stop() {
     status status = status::NOT_RUNNING;
     if(m_is_running) {
-        const properties props;
+        const properties props(log_mode::real_time); // we don't "need" log_mode for stopping the trace
         const ULONG stop_status = StopTraceW(m_handle, m_name.c_str(), props.get_ptr()->get_struct());
         status = to_status(stop_status);
         m_is_running = !(stop_status == status::SUCCESS);
