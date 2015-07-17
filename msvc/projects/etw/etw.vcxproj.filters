@@ -33,6 +33,9 @@
     <ClCompile Include="..\..\..\src\etw\properties_buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files\Private</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\inc\etw\status.h">
+      <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\controller.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
   </ItemGroup>
