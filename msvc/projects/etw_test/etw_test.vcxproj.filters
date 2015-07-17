@@ -27,5 +27,8 @@
     <ClCompile Include="..\..\..\src\etw_test\controller_ctx_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\etw_test\controller_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
