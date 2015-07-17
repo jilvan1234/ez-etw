@@ -10,10 +10,7 @@ using ez_etw::kernel_flags;
 using ez_etw::resolution_speed;
 using ez_etw::log_mode;
 
-static const string SCENARIO_NAME("properties");
-#define NEW_SCENARIO(scenario_desc) SCENARIO(scenario_desc, SCENARIO_NAME.c_str())
-
-NEW_SCENARIO("initialization of the buffer") {
+SCENARIO("initialization of properties might need flags") {
     GIVEN("no flags are provided") {
         const properties props;
         THEN("it is not a kernel logger") {
@@ -42,7 +39,7 @@ NEW_SCENARIO("initialization of the buffer") {
     }
 }
 
-NEW_SCENARIO("different resolution speed are available") {
+SCENARIO("different resolution speed are available for the properties") {
     properties props;
     GIVEN("low speed is given") {
         resolution_speed speed(resolution_speed::low);
@@ -73,7 +70,7 @@ NEW_SCENARIO("different resolution speed are available") {
     }
 }
 
-NEW_SCENARIO("different log mode are available") {
+SCENARIO("different log mode are available for the properties") {
     properties props;
     GIVEN("real time is given") {
         log_mode mode(log_mode::real_time);
