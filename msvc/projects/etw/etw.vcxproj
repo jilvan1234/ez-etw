@@ -128,14 +128,17 @@
     <ClCompile Include="..\..\..\src\etw\controller_ctx.cpp" />
     <ClCompile Include="..\..\..\src\etw\properties.cpp" />
     <ClCompile Include="..\..\..\src\etw\properties_buffer.cpp" />
+    <ClCompile Include="..\..\..\src\etw\session_ctx.cpp" />
     <ClCompile Include="..\..\..\src\etw\status.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\inc\etw\controller.h" />
+    <ClInclude Include="..\..\..\inc\etw\session.h" />
     <ClInclude Include="..\..\..\inc\etw\properties.h" />
     <ClInclude Include="..\..\..\inc\etw\status.h" />
     <ClInclude Include="..\..\..\src\etw\inc\controller_ctx.h" />
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h" />
+    <ClInclude Include="..\..\..\src\etw\inc\session_ctx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

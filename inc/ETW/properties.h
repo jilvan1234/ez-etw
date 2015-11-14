@@ -21,10 +21,9 @@ namespace ez_etw {
 
     struct properties {
         using ptr_type = std::unique_ptr<properties_buffer>;
-        properties(const kernel_flags& flags = kernel_flags::none);
+        properties(const log_mode& mode, const kernel_flags& flags = kernel_flags::none);
         ~properties();
         void set_resolution_speed(const resolution_speed& speed);
-        void set_log_mode(const log_mode& mode);
         ptr_type::element_type* const get_ptr() const;
     private:
         ptr_type m_buff;

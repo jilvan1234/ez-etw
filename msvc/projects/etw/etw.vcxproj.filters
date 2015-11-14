@@ -36,6 +36,9 @@
     <ClCompile Include="..\..\..\src\etw\controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\session_ctx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h">
@@ -52,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\inc\etw\controller.h">
       <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\session.h">
+      <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\etw\inc\session_ctx.h">
+      <Filter>Header Files\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
