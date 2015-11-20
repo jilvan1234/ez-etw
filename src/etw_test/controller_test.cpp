@@ -12,7 +12,8 @@ using ez_etw::log_mode;
 
 static const wstring CONTROLLER_NAME_GENERIC(L"ez_etw__controller_test");
 
-SCENARIO("construction of a controller needs a name") {
+static const string TEST_TAG = "[controller]";
+TEST_CASE("construction of a controller needs a name", TEST_TAG.c_str()) {
     GIVEN("the kernel logger name") {
         controller ctrl(controller::KERNEL_NAME);
         THEN("it is a kernel logger controller") {
@@ -29,7 +30,7 @@ SCENARIO("construction of a controller needs a name") {
     }
 }
 
-SCENARIO("a controller can be started and stopped") {
+TEST_CASE("a controller can be started and stopped", TEST_TAG.c_str()) {
     GIVEN("generic arguments") {
         controller ctrl(CONTROLLER_NAME_GENERIC);
         properties props(log_mode::real_time);
@@ -74,7 +75,7 @@ SCENARIO("a controller can be started and stopped") {
     }
 }
 
-SCENARIO("starting a controller needs the right properties") {
+TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) {
     GIVEN("the kernel logger name") {
         controller ctrl(controller::KERNEL_NAME);
         WHEN("properties are created with flags") {

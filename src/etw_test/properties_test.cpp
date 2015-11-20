@@ -10,7 +10,8 @@ using ez_etw::kernel_flags;
 using ez_etw::resolution_speed;
 using ez_etw::log_mode;
 
-SCENARIO("initialization of properties might need flags") {
+static const string TEST_TAG = "[properties]";
+TEST_CASE("initialization of properties might need flags", TEST_TAG.c_str()) {
     GIVEN("no flags are provided") {
         const properties props(log_mode::real_time);
         THEN("it is not a kernel logger") {
@@ -37,7 +38,7 @@ SCENARIO("initialization of properties might need flags") {
     }
 }
 
-SCENARIO("different resolution speed are available for the properties") {
+TEST_CASE("different resolution speed are available for the properties", TEST_TAG.c_str()) {
     properties props(log_mode::real_time);
     GIVEN("low speed is given") {
         resolution_speed speed(resolution_speed::low);
@@ -68,7 +69,7 @@ SCENARIO("different resolution speed are available for the properties") {
     }
 }
 
-SCENARIO("different log mode are available for the properties") {
+TEST_CASE("different log mode are available for the properties", TEST_TAG.c_str()) {
     GIVEN("real time is given") {
         properties props(log_mode::real_time);
         THEN("the real time value is in the structure") {

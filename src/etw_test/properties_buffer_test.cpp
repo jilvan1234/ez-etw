@@ -8,7 +8,8 @@ using std::memcmp;
 using ez_etw::properties_buffer;
 using ez_etw::kernel_flags;
 
-SCENARIO("initialization of the proeprties_buffer need flags") {
+static const string TEST_TAG = "[properties_buffer]";
+TEST_CASE("initialization of the proeprties_buffer need flags", TEST_TAG.c_str()) {
     GIVEN("properties with no flag") {
         kernel_flags flags(kernel_flags::none);
         properties_buffer props(flags);
@@ -26,7 +27,7 @@ SCENARIO("initialization of the proeprties_buffer need flags") {
     }
 }
 
-SCENARIO("a pointer to the internal buffer of the properties_buffer can be accessed") {
+TEST_CASE("a pointer to the internal buffer of the properties_buffer can be accessed", TEST_TAG.c_str()) {
     GIVEN("a kernel logger") {
         kernel_flags flags(kernel_flags::process);
         properties_buffer props(flags);
@@ -45,7 +46,7 @@ SCENARIO("a pointer to the internal buffer of the properties_buffer can be acces
     }
 }
 
-SCENARIO("a pointer to the internal structure of the properties buffer can be accessed") {
+TEST_CASE("a pointer to the internal structure of the properties buffer can be accessed", TEST_TAG.c_str()) {
     GIVEN("a kernel logger") {
         kernel_flags flags(kernel_flags::process);
         properties_buffer props(flags);

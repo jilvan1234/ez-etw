@@ -1,6 +1,5 @@
 #include <catch/catch.hpp>
 #include "../etw/inc/session_ctx.h"
-
 #include <etw/controller.h>
 
 //SCENARIO("TEST SESSION CTX") {
@@ -15,7 +14,7 @@
 using std::wstring;
 static const wstring GENERIC_SESSION_NAME(L"ez_etw__session_ctx_test");
 
-SCENARIO("a new session context is not running by default") {
+TEST_CASE("a new session context is not running by default", "[session_ctx]") {
     GIVEN("consuming from a kernel session") {
         ez_etw::session_ctx session_ctx(ez_etw::controller::KERNEL_NAME, FALSE, ez_etw::log_mode::real_time);
         THEN("the session context is not running") {
