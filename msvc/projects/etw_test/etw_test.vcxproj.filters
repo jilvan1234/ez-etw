@@ -33,5 +33,8 @@
     <ClCompile Include="..\..\..\src\etw_test\session_ctx_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\etw_test\event_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
