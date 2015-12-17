@@ -63,22 +63,3 @@ TEST_CASE("can parse event", "[event_parser]") {
 		}
 	}
 }
-
-TEST_CASE("parsed events can be peeked at", "[event_parser]") {
-	test_event_parser parser(test_guid0);
-	//auto evt1 = make_shared<event>(test_guid1, 24, 0, nullptr, 0);
-	
-
-	WHEN("an event is parsed") {
-		auto evt = make_shared<event>(test_guid0, 42, 0, nullptr, 0);
-		REQUIRE(parser.parse(evt));
-		REQUIRE_FALSE(parser.events_empty());
-		THEN("an event can be removed") {
-			parser.remove_event();
-			REQUIRE(parser.events_empty());
-		}
-		THEN("an event can be looked") {
-
-		}
-	}
-}
