@@ -20,6 +20,7 @@ enum buffer_state {
 	buffer_state_reset
 };
 
+// TODO use a mutext-lock instead of an atomic_bool
 static atomic_bool& get_cb_buffer_state_running(buffer_state new_state) {
 	static atomic_bool run = false;
 	if(new_state == buffer_state_stop) {
@@ -30,7 +31,6 @@ static atomic_bool& get_cb_buffer_state_running(buffer_state new_state) {
 	return run;
 }
 
-
 enum event_parser_action {
 	event_parser_action_query,
 	event_parser_action_insert
@@ -38,18 +38,25 @@ enum event_parser_action {
 
 struct guid_comparator {
 	bool operator()(const GUID& left, const GUID& right) {
-		return IsEqualGUID(left, right) == TRUE;
+		return left.Data1 < right.Data1 && 
+			left.Data2 < right.Data2 && 
+			left.Data3 < right.Data3 &&
+			left.Data4 < right.Data4;
 	}
 };
-/*
-static map<GUID, event_parser, guid_comparator>& event_parser_do(event_parser_action action, GUID key, event_parser value, bool& success) {
-	static map<GUID, event_parser, guid_comparator> parsables;
-	if(get_cb_buffer_state_running(buffer_state_query) && event_parser_action_insert == action) {
-		success = parsables.insert(std::pair<GUID, event_parser>(key, value)).second;
+
+static map<GUID, std::shared_ptr<event_parser>, guid_comparator>& event_parser_do(event_parser_action action, GUID* key, std::shared_ptr<event_parser> value, bool* success) {
+	static map<GUID, std::shared_ptr<event_parser>, guid_comparator> parsables;
+	if(event_parser_action_insert == action && nullptr != key && nullptr != value && !get_cb_buffer_state_running(buffer_state_query)) {
+		if(parsables.find(*key) == end(parsables)) {
+			std::pair<GUID, std::shared_ptr<event_parser>> p(*key, value);
+			auto inserted = parsables.emplace(p);
+			*success = inserted.second;
+		}
 	}
 	return parsables;
 };
-*/
+
 static shared_ptr<event> create_event(const EVENT_TRACE* ptr_event) {
 	auto evt = make_shared<event>(ptr_event->Header.Guid, ptr_event->Header.ProcessId, ptr_event->Header.TimeStamp.QuadPart, static_cast<char*>(ptr_event->MofData), ptr_event->MofLength);
 	evt->set_type(ptr_event->Header.Class.Type);
@@ -58,7 +65,11 @@ static shared_ptr<event> create_event(const EVENT_TRACE* ptr_event) {
 
 static void cb_event(EVENT_TRACE* const ptr_event) {
 	auto evt = create_event(ptr_event);
-	// TODO iteration over parsables
+	auto parsers = event_parser_do(event_parser_action_query, nullptr, nullptr, nullptr); 
+	auto parser = parsers.find(evt->m_guid);
+	if(parser != end(parsers)) {
+		parser->second->parse(evt);
+	}
 }
 
 static unsigned long cb_buffer(EVENT_TRACE_LOGFILEW* const ptr_event_trace) {
@@ -84,13 +95,11 @@ session_ctx::session_ctx(const std::wstring& name, const bool consume_from_file,
     m_trace_log.EventCallback = &cb_event;
     m_trace_log.BufferCallback = &cb_buffer;
 	m_trace_log.ProcessTraceMode = mode;
-	
 }
 
-bool session_ctx::parsers_add(const event_parser& parser) {
+bool session_ctx::parsers_add(std::shared_ptr<event_parser> parser) {
 	bool is_added = false;
-	
-	//event_parser_do(event_parser_action_insert, guid_event, parser, is_added);
+	event_parser_do(event_parser_action::event_parser_action_insert, &parser->get_event_type(), parser, &is_added);
 	return is_added;
 }
 

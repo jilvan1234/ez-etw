@@ -14,7 +14,7 @@ namespace ez_etw {
 
     struct session_ctx {
         session_ctx(const std::wstring& name, const bool consume_from_file, const ez_etw::log_mode& mode);
-		bool parsers_add(const event_parser& parser);
+		bool parsers_add(std::shared_ptr<event_parser> parser);
         bool is_running() const;
         ~session_ctx();
 		bool start();

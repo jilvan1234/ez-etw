@@ -23,6 +23,10 @@ bool event_parser::events_empty() const {
 	return m_events.empty();
 }
 
+GUID event_parser::get_event_type() const {
+	return m_event_guid;
+}
+
 bool event_parser::parse(std::shared_ptr<event> evt) {
 	bool parsed = false;
 	if(evt->m_guid == m_event_guid)

@@ -48,16 +48,22 @@ TEST_CASE("a session context can be started to log events", "[session_ctx]") {
 	}
 }
 
-TEST_CASE("a session context need to be stopped to add parsers", "[session_ctx]") {
+TEST_CASE("event parser can be added to a session context", "[session_ctx]") {
 	ez_etw::session_ctx session_ctx(ez_etw::controller::KERNEL_NAME, FALSE, ez_etw::log_mode::real_time);
-	GIVEN("that the session is tarted") {
+	auto parser = std::make_shared<test_event_parser>(test_guid0);
+	GIVEN("that the session is started") {
 		REQUIRE(session_ctx.start());
 		THEN("event parsers cannot be added") {
-			GUID guid = { 0 };
-			test_event_parser parser(guid);
-			// TODO test session_ctx
-			// session_ctx.parsers_add
+			REQUIRE_FALSE(session_ctx.parsers_add(parser));
 		}
 	}
-
+	GIVEN("that the session is not running") {
+		THEN("event parser can be added") {
+			REQUIRE(session_ctx.parsers_add(parser));
+			AND_WHEN("a parser with the same guid is added") {
+				REQUIRE_FALSE(session_ctx.parsers_add(parser));
+			}
+			REQUIRE(session_ctx.start());
+		}
+	}
 }
