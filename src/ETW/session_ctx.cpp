@@ -2,40 +2,44 @@
 #include <iostream>
 #include <map>
 //#include <Guiddef.h>
-#include <atomic>
+#include <mutex>
 
 using std::memset;
 using std::thread;
 using ez_etw::session_ctx;
-using std::atomic_bool;
 using std::map;
 using std::shared_ptr;
 using ez_etw::event;
 using std::make_shared;
 using ez_etw::event_parser;
+using std::mutex;
+using std::lock_guard;
 
+// ---
+// global variables
+static mutex g_is_running_mutex;
+static bool g_is_running = false;
+// ---
+
+using lock_type = lock_guard<decltype(g_is_running_mutex)>;
+/*
 enum buffer_state {
 	buffer_state_query,
 	buffer_state_stop,
 	buffer_state_reset
 };
-
-// TODO use a mutext-lock instead of an atomic_bool
-static atomic_bool& get_cb_buffer_state_running(buffer_state new_state) {
-	static atomic_bool run = false;
+/*
+bool get_cb_buffer_state_running(buffer_state new_state) {
+	static bool is_running = false;
+	lock_type lock(g_is_running_mutex);
 	if(new_state == buffer_state_stop) {
-		run = false;
+		is_running = false;
 	} else if(new_state == buffer_state_reset) {
-		run = true;
+		is_running = true;
 	}
-	return run;
+	return is_running;
 }
-
-enum event_parser_action {
-	event_parser_action_query,
-	event_parser_action_insert
-};
-
+*/
 struct guid_comparator {
 	bool operator()(const GUID& left, const GUID& right) {
 		return left.Data1 < right.Data1 && 
@@ -45,9 +49,14 @@ struct guid_comparator {
 	}
 };
 
+enum event_parser_action {
+	event_parser_action_query,
+	event_parser_action_insert
+};
+
 static map<GUID, std::shared_ptr<event_parser>, guid_comparator>& event_parser_do(event_parser_action action, GUID* key, std::shared_ptr<event_parser> value, bool* success) {
 	static map<GUID, std::shared_ptr<event_parser>, guid_comparator> parsables;
-	if(event_parser_action_insert == action && nullptr != key && nullptr != value && !get_cb_buffer_state_running(buffer_state_query)) {
+	if(!g_is_running && event_parser_action_insert == action && nullptr != key && nullptr != value) {
 		if(parsables.find(*key) == end(parsables)) {
 			std::pair<GUID, std::shared_ptr<event_parser>> p(*key, value);
 			auto inserted = parsables.emplace(p);
@@ -73,7 +82,8 @@ static void cb_event(EVENT_TRACE* const ptr_event) {
 }
 
 static unsigned long cb_buffer(EVENT_TRACE_LOGFILEW* const ptr_event_trace) {
-    return get_cb_buffer_state_running(buffer_state_query);
+	lock_type lock(g_is_running_mutex);
+	return g_is_running;
 }
 
 void trace_thread(EVENT_TRACE_LOGFILEW& log) {
@@ -98,6 +108,7 @@ session_ctx::session_ctx(const std::wstring& name, const bool consume_from_file,
 }
 
 bool session_ctx::parsers_add(std::shared_ptr<event_parser> parser) {
+	lock_type lock(g_is_running_mutex);
 	bool is_added = false;
 	event_parser_do(event_parser_action::event_parser_action_insert, &parser->get_event_type(), parser, &is_added);
 	return is_added;
@@ -108,23 +119,24 @@ session_ctx::~session_ctx() {
 }
 
 bool session_ctx::is_running() const {
-	return get_cb_buffer_state_running(buffer_state_query);
+	lock_type lock(g_is_running_mutex);
+	return g_is_running;
 }
 
 bool session_ctx::start() {
-	bool started = false;
-	if(!get_cb_buffer_state_running(buffer_state_query)) {
-		started = get_cb_buffer_state_running(buffer_state_reset);
+	lock_type lock(g_is_running_mutex);
+	if(!g_is_running) {
 		m_trace_thread = std::make_unique<std::thread>(trace_thread, std::ref(m_trace_log));
+		g_is_running = true;
 	}
-	return started;
+	return g_is_running;
 }
 
 bool session_ctx::stop() {
-	bool stopped = false;
-	if(get_cb_buffer_state_running(buffer_state_query)) {
-		stopped = !get_cb_buffer_state_running(buffer_state_stop);
+	lock_type lock(g_is_running_mutex);
+	if(g_is_running) {
+		g_is_running = false;
 		m_trace_thread->join();
 	}
-	return stopped;
+	return !g_is_running;
 }

@@ -36,8 +36,8 @@ TEST_CASE("a new session context is not running by default", "[session_ctx]") {
 TEST_CASE("a session context can be started to log events", "[session_ctx]") {
 	ez_etw::session_ctx session_ctx(ez_etw::controller::KERNEL_NAME, FALSE, ez_etw::log_mode::real_time);
 	GIVEN("that the session was not started") {
-		THEN("it cannot be stopped") {
-			REQUIRE_FALSE(session_ctx.stop());
+		THEN("trying to stop it won't do anything") {
+			REQUIRE(session_ctx.stop());
 		}
 	}
 	GIVEN("that the session is started") {
