@@ -36,13 +36,22 @@
     <ClCompile Include="..\..\..\src\etw\controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\etw\session_ctx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ETW\event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ETW\event_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\guid_comparator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\session_trace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,12 +71,6 @@
     <ClInclude Include="..\..\..\inc\etw\controller.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\inc\etw\session.h">
-      <Filter>Header Files\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\etw\inc\session_ctx.h">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\inc\ETW\event.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
@@ -75,6 +78,15 @@
       <Filter>Header Files\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\inc\ETW\parsed_event.h">
+      <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\etw\inc\guid_comparator.h">
+      <Filter>Header Files\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\etw\inc\session_trace.h">
+      <Filter>Header Files\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\session.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
   </ItemGroup>

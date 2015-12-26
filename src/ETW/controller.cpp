@@ -8,7 +8,7 @@ using ez_etw::controller_ctx;
 using ez_etw::status;
 using ez_etw::properties;
 
-const wstring& controller::KERNEL_NAME(KERNEL_LOGGER_NAMEW);
+const wstring& controller::kernel_name(KERNEL_LOGGER_NAMEW);
 
 controller::controller(const wstring& name)
 :m_ctx(std::make_unique<controller_ctx>(name)) {

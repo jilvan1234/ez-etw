@@ -10,7 +10,7 @@ namespace ez_etw {
     struct controller_ctx;
 
     struct controller {
-        static const std::wstring& KERNEL_NAME;
+        static const std::wstring& kernel_name;
         controller(const std::wstring& name);
         ~controller();
         status start(const properties& props);

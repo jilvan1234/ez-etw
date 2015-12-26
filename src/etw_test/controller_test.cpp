@@ -10,19 +10,19 @@ using ez_etw::kernel_flags;
 using ez_etw::status;
 using ez_etw::log_mode;
 
-static const wstring CONTROLLER_NAME_GENERIC(L"ez_etw__controller_test");
+static const wstring controller_name_generic(L"ez_etw__controller_test");
 
 static const string TEST_TAG = "[controller]";
 TEST_CASE("construction of a controller needs a name", TEST_TAG.c_str()) {
     GIVEN("the kernel logger name") {
-        controller ctrl(controller::KERNEL_NAME);
+        controller ctrl(controller::kernel_name);
         THEN("it is a kernel logger controller") {
             REQUIRE(ctrl.is_kernel_logger());
             REQUIRE_FALSE(ctrl.is_running());
         }
     }
     GIVEN("a generic name") {
-        controller ctrl(CONTROLLER_NAME_GENERIC);
+        controller ctrl(controller_name_generic);
         THEN("it is not a kernel logger controller") {
             REQUIRE_FALSE(ctrl.is_kernel_logger());
             REQUIRE_FALSE(ctrl.is_running());
@@ -32,7 +32,7 @@ TEST_CASE("construction of a controller needs a name", TEST_TAG.c_str()) {
 
 TEST_CASE("a controller can be started and stopped", TEST_TAG.c_str()) {
     GIVEN("generic arguments") {
-        controller ctrl(CONTROLLER_NAME_GENERIC);
+        controller ctrl(controller_name_generic);
         properties props(log_mode::real_time);
         THEN("it cannot be stopped if it is not running") {
             REQUIRE_FALSE(ctrl.is_running());
@@ -52,7 +52,7 @@ TEST_CASE("a controller can be started and stopped", TEST_TAG.c_str()) {
             }
         }
         WHEN("two context with the same name starts") {
-            controller ctrl_dup(CONTROLLER_NAME_GENERIC);
+            controller ctrl_dup(controller_name_generic);
             status status_ctrl(ctrl.start(props));
             status status_ctrl_dup(ctrl.start(props));
             THEN("only the first context be started") {
@@ -77,7 +77,7 @@ TEST_CASE("a controller can be started and stopped", TEST_TAG.c_str()) {
 
 TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) {
     GIVEN("the kernel logger name") {
-        controller ctrl(controller::KERNEL_NAME);
+        controller ctrl(controller::kernel_name);
         WHEN("properties are created with flags") {
             properties props(log_mode::real_time, kernel_flags::process);
             THEN("the kernel controller is started") {
@@ -125,7 +125,7 @@ TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) 
         }
     }
     GIVEN("a generic name") {
-        controller ctrl(CONTROLLER_NAME_GENERIC);
+        controller ctrl(controller_name_generic);
         WHEN("properties are created with flags") {
             properties props(log_mode::real_time, kernel_flags::process);
             THEN("the generic controller is started") {
