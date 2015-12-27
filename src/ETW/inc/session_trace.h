@@ -15,6 +15,7 @@ namespace ez_etw {
         session_trace(const std::wstring& name, const bool consume_from_file, const ez_etw::log_mode& mode, event_callback_type cb_event, buffer_callback_type cb_buffer);
         EVENT_TRACE_LOGFILEW* const get_trace_logfile();
     private:
+        static const std::string exception_invalid_callbacks;
         EVENT_TRACE_LOGFILEW m_trace_log;
     };
 }
