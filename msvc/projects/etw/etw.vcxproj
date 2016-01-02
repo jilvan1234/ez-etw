@@ -129,7 +129,9 @@
     <ClCompile Include="..\..\..\src\etw\controller_ctx.cpp" />
     <ClCompile Include="..\..\..\src\ETW\event.cpp" />
     <ClCompile Include="..\..\..\src\ETW\event_parser.cpp" />
+    <ClCompile Include="..\..\..\src\etw\event_parser_process.cpp" />
     <ClCompile Include="..\..\..\src\etw\guid_comparator.cpp" />
+    <ClCompile Include="..\..\..\src\etw\parsed_event.cpp" />
     <ClCompile Include="..\..\..\src\etw\properties.cpp" />
     <ClCompile Include="..\..\..\src\etw\properties_buffer.cpp" />
     <ClCompile Include="..\..\..\src\etw\session.cpp" />
@@ -140,7 +142,10 @@
     <ClInclude Include="..\..\..\inc\etw\controller.h" />
     <ClInclude Include="..\..\..\inc\ETW\event.h" />
     <ClInclude Include="..\..\..\inc\ETW\event_parser.h" />
+    <ClInclude Include="..\..\..\inc\etw\event_parsers_process.h" />
+    <ClInclude Include="..\..\..\inc\etw\parsed_events_process.h" />
     <ClInclude Include="..\..\..\inc\ETW\parsed_event.h" />
+    <ClInclude Include="..\..\..\inc\etw\process_vista.h" />
     <ClInclude Include="..\..\..\inc\etw\properties.h" />
     <ClInclude Include="..\..\..\inc\etw\session.h" />
     <ClInclude Include="..\..\..\inc\etw\status.h" />

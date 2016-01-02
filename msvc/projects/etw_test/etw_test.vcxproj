@@ -138,6 +138,7 @@
     <ClCompile Include="..\..\..\src\etw_test\event_parser_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\event_parser_process_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\event_test.cpp" />
+    <ClCompile Include="..\..\..\src\etw_test\parsed_event_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\properties_buffer_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\properties_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\session_test.cpp" />

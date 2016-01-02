@@ -36,9 +36,6 @@
     <ClCompile Include="..\..\..\src\etw_test\event_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\etw_test\event_parser_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\etw_test\session_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -47,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\etw_test\event_parser_process_test.cpp">
       <Filter>Source Files\event_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw_test\event_parser_test.cpp">
+      <Filter>Source Files\event_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw_test\parsed_event_test.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

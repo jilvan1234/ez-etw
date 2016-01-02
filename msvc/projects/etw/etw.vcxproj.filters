@@ -19,6 +19,18 @@
     <Filter Include="Header Files\Private">
       <UniqueIdentifier>{1fc0d783-9f38-43c2-8759-4baa3748ed18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\event_parsers">
+      <UniqueIdentifier>{46bfd95b-e3d2-4f85-9e82-99c70c68a177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Public\event_parsers">
+      <UniqueIdentifier>{b1d814ba-aae9-431f-bb9d-62974d779e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Public\parsed_events">
+      <UniqueIdentifier>{c1939a43-d577-4596-b734-00e286f72a50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Public\parsed_events\process">
+      <UniqueIdentifier>{ad469cad-9588-4497-bac6-4b4e3512f559}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ETW\properties.cpp">
@@ -54,6 +66,12 @@
     <ClCompile Include="..\..\..\src\etw\session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\event_parser_process.cpp">
+      <Filter>Source Files\event_parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\parsed_event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h">
@@ -74,12 +92,6 @@
     <ClInclude Include="..\..\..\inc\ETW\event.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\inc\ETW\event_parser.h">
-      <Filter>Header Files\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\inc\ETW\parsed_event.h">
-      <Filter>Header Files\Public</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\etw\inc\guid_comparator.h">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
@@ -88,6 +100,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\inc\etw\session.h">
       <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\event_parsers_process.h">
+      <Filter>Header Files\Public\event_parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\ETW\parsed_event.h">
+      <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\ETW\event_parser.h">
+      <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\parsed_events_process.h">
+      <Filter>Header Files\Public\parsed_events\process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\process_vista.h">
+      <Filter>Header Files\Public\parsed_events\process</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
