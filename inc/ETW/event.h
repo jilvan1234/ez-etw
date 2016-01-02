@@ -3,25 +3,35 @@
 
 #include <sstream>
 #include <Guiddef.h>
+#include <memory>
 
 namespace ez_etw {
 	struct event {
 		enum type {
-			Info,
-			Start,
-			End,
-			DataCollectionStart,
-			DataCollectionEnd
+			info,
+			start,
+			end,
+			data_collection_start,
+            data_collection_end
 		};
-		event(const GUID& guid, unsigned int process_id, const long long& timestamp, const char* buffer, size_t buffer_size);
+        event(const GUID& guid, const unsigned long long& timestamp, unsigned int process_id, const char* buffer, size_t buffer_size);
 		virtual ~event() = default;
 		bool set_type(unsigned int type);
-		// members
-		unsigned int m_process_id;
-		std::stringstream m_buffer;
-		type m_type;
-		long long m_timestamp;
-		GUID m_guid;
+        void set_version(unsigned short version);
+
+        const GUID& get_guid() const;
+        unsigned int get_process_id() const;
+        unsigned long long get_timestamp() const;
+        type get_type() const;
+        unsigned short get_version() const;
+        const std::shared_ptr<std::string> get_buffer() const;
+    private:
+        GUID m_guid;
+        unsigned int m_process_id;
+        unsigned long long m_timestamp;
+        type m_type;
+        unsigned short m_version;
+        std::shared_ptr<std::string> m_buffer;
 	};
 }
 

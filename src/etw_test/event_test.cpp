@@ -29,31 +29,30 @@ TEST_CASE("event creation", "[event]") {
 	static const unsigned int process_id = 42;
 	static const long long timestamp = 123;
 	std::string buffer = "Hello world!";
-	event evt(get_guid(), process_id, timestamp, buffer.c_str(), buffer.length());
-	REQUIRE(evt.m_process_id == process_id);
-	REQUIRE(evt.m_timestamp == timestamp);
-	REQUIRE(IsEqualGUID(evt.m_guid, get_guid()));
-	std::string event_buffer;
-	evt.m_buffer >> event_buffer;
-	REQUIRE(evt.m_buffer.str() == buffer);
-	REQUIRE(evt.m_type == event::type::Info);
+    event evt(get_guid(), timestamp, process_id, buffer.c_str(), buffer.length());
+	REQUIRE(evt.get_process_id() == process_id);
+	REQUIRE(evt.get_timestamp() == timestamp);
+	REQUIRE(IsEqualGUID(evt.get_guid(), get_guid()));
+	auto event_buffer = evt.get_buffer();
+	REQUIRE(*evt.get_buffer() == buffer);
+	REQUIRE(evt.get_type() == event::type::info);
 }
 
 TEST_CASE("event type supported", "[event]") {
 	std::string buffer = "";
 	event evt(get_guid(), 0, 0, buffer.c_str(), buffer.length());
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_START));
-	REQUIRE(evt.m_type == event::type::Start);
+	REQUIRE(evt.get_type() == event::type::start);
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_END));
-	REQUIRE(evt.m_type == event::type::End);
+    REQUIRE(evt.get_type() == event::type::end);
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_DC_START));
-	REQUIRE(evt.m_type == event::type::DataCollectionStart);
+    REQUIRE(evt.get_type() == event::type::data_collection_start);
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_DC_END));
-	REQUIRE(evt.m_type == event::type::DataCollectionEnd);
+    REQUIRE(evt.get_type() == event::type::data_collection_end);
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_STOP));
-	REQUIRE(evt.m_type == event::type::End);
+    REQUIRE(evt.get_type() == event::type::end);
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_INFO));
-	REQUIRE(evt.m_type == event::type::Info);
+    REQUIRE(evt.get_type() == event::type::info);
 	REQUIRE_FALSE(evt.set_type(EVENT_TRACE_TYPE_EXTENSION));
 	REQUIRE_FALSE(evt.set_type(EVENT_TRACE_TYPE_REPLY));
 	REQUIRE_FALSE(evt.set_type(EVENT_TRACE_TYPE_DEQUEUE));
@@ -62,5 +61,5 @@ TEST_CASE("event type supported", "[event]") {
 	REQUIRE_FALSE(evt.set_type(EVENT_TRACE_TYPE_SUSPEND));
 	REQUIRE_FALSE(evt.set_type(EVENT_TRACE_TYPE_WINEVT_SEND));
 	REQUIRE_FALSE(evt.set_type(EVENT_TRACE_TYPE_WINEVT_RECEIVE));
-	REQUIRE(evt.m_type == event::type::Info);
+	REQUIRE(evt.get_type() == event::type::info);
 }

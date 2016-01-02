@@ -1,36 +1,65 @@
-#include <ETW/event.h>
+#include <etw/event.h>
 
 #include <Windows.h>
 #include <Wmistr.h>
 #include <Evntrace.h>
 
 using ez_etw::event;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
 
-event::event(const GUID& guid, unsigned int process_id, const long long& timestamp, const char* buffer, size_t buffer_size)
-:m_process_id(process_id), m_type(type::Info), m_timestamp(timestamp), m_guid(guid) {
-	m_buffer.write(buffer, buffer_size);
+event::event(const GUID& guid, const unsigned long long& timestamp, unsigned int process_id, const char* buffer, size_t buffer_size)
+:m_process_id(process_id), m_timestamp(timestamp), m_guid(guid), m_type(type::info), m_version(0), m_buffer(make_shared<std::string>(buffer, buffer_size)) {
 }
 
 bool event::set_type(unsigned int type) {
 	bool IsValid = true;
 	switch(type) {
 		case EVENT_TRACE_TYPE_INFO:
-			m_type = type::Info;
+			m_type = type::info;
 			break;
 		case EVENT_TRACE_TYPE_START:
-			m_type = type::Start;
+			m_type = type::start;
 			break;
 		case EVENT_TRACE_TYPE_END:
-			m_type = type::End;
+			m_type = type::end;
 			break;
 		case EVENT_TRACE_TYPE_DC_START:
-			m_type = type::DataCollectionStart;
+			m_type = type::data_collection_start;
 			break;
 		case EVENT_TRACE_TYPE_DC_END:
-			m_type = type::DataCollectionEnd;
+			m_type = type::data_collection_end;
 			break;
 		default:
 			IsValid = false;
 	}
 	return IsValid;
+}
+
+void event::set_version(unsigned short version) {
+    m_version = version;
+}
+
+const GUID& event::get_guid() const {
+    return m_guid;
+}
+
+unsigned int event::get_process_id() const {
+    return m_process_id;
+}
+unsigned long long event::get_timestamp() const {
+    return m_timestamp;
+}
+
+event::type event::get_type() const {
+    return m_type;
+}
+
+unsigned short event::get_version() const {
+    return m_version;    
+}
+
+const shared_ptr<string> event::get_buffer() const {
+    return m_buffer;
 }
