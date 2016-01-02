@@ -15,7 +15,7 @@ TEST_CASE("cannot remove events from an event parser without events", "[event_pa
 TEST_CASE("can parse event", "[event_parser]") {
 	test_event_parser parser(test_guid0);
 	WHEN("the event have the same guid than the parser") {
-		auto evt = make_shared<event>(test_guid0, 42, 0, nullptr, 0);
+		auto evt = make_shared<event>(test_guid0, 0, 42, nullptr, 0);
 		THEN("event can be parsed") {
 			REQUIRE(parser.parse(evt));
 			REQUIRE_FALSE(parser.events_empty());
@@ -27,10 +27,10 @@ TEST_CASE("can parse event", "[event_parser]") {
 				const test_event* const top_evt = static_cast<const test_event* const>(parser.get_event());
 				REQUIRE(top_evt != nullptr);
 				REQUIRE_FALSE(parser.events_empty());
-				REQUIRE(top_evt->m_pid == 42);
+				REQUIRE(top_evt->get_pid() == 42);
 			}
 			AND_WHEN("more event can be parsed at a time") {
-				evt = make_shared<event>(test_guid0, 24, 0, nullptr, 0);
+				evt = make_shared<event>(test_guid0, 0, 24, nullptr, 0);
 				REQUIRE(parser.parse(evt));
 				REQUIRE_FALSE(parser.events_empty());
 				AND_THEN("events can be removed") {
@@ -42,12 +42,12 @@ TEST_CASE("can parse event", "[event_parser]") {
 				AND_THEN("events can be accessed") {
 					const test_event* const top_evt0 = static_cast<const test_event* const>(parser.get_event());
 					REQUIRE(top_evt0 != nullptr);
-					REQUIRE(top_evt0->m_pid == 42);
+					REQUIRE(top_evt0->get_pid() == 42);
 					parser.remove_event();
 					REQUIRE_FALSE(parser.events_empty());
 					const test_event* const top_evt1 = static_cast<const test_event* const>(parser.get_event());
 					REQUIRE(top_evt1 != nullptr);
-					REQUIRE(top_evt1->m_pid == 24);
+					REQUIRE(top_evt1->get_pid() == 24);
 					parser.remove_event();
 					REQUIRE(parser.events_empty());
 				}
@@ -56,7 +56,7 @@ TEST_CASE("can parse event", "[event_parser]") {
 
 	}
 	WHEN("the event does not have the same guid than the parser") {
-		auto evt = make_shared<event>(test_guid1, 42, 0, nullptr, 0);
+		auto evt = make_shared<event>(test_guid1, 0, 42, nullptr, 0);
 		THEN("event cannot be parsed") {
 			REQUIRE_FALSE(parser.parse(evt));
 			REQUIRE(parser.events_empty());

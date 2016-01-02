@@ -43,15 +43,16 @@ static map<GUID, std::shared_ptr<event_parser>, guid_comparator>& event_parser_d
 };
 
 static shared_ptr<event> create_event(const EVENT_TRACE* ptr_event) {
-	auto evt = make_shared<event>(ptr_event->Header.Guid, ptr_event->Header.ProcessId, ptr_event->Header.TimeStamp.QuadPart, static_cast<char*>(ptr_event->MofData), ptr_event->MofLength);
+    auto evt = make_shared<event>(ptr_event->Header.Guid, ptr_event->Header.TimeStamp.QuadPart, ptr_event->Header.ProcessId, static_cast<char*>(ptr_event->MofData), ptr_event->MofLength);
 	evt->set_type(ptr_event->Header.Class.Type);
+    evt->set_version(ptr_event->Header.Class.Version);
 	return evt;
 }
 
 static void __stdcall cb_event(EVENT_TRACE* const ptr_event) {
 	auto evt = create_event(ptr_event);
-	auto parsers = event_parser_do(event_parser_action_query, nullptr, nullptr, nullptr); 
-	auto parser = parsers.find(evt->m_guid);
+	auto parsers = event_parser_do(event_parser_action_query, nullptr, nullptr, nullptr);
+	auto parser = parsers.find(evt->get_guid());
 	if(parser != end(parsers)) {
 		parser->second->parse(evt);
 	}

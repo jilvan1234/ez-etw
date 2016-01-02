@@ -18,12 +18,14 @@ ULONG WINAPI cb_buffer(PEVENT_TRACE_LOGFILEW event) {
 
 TEST_CASE("constructor of a session_trace", "[session_trace]") {
     WHEN("invalid callbacks are given") {
-        REQUIRE_THROWS_AS(session_trace(session_trace_name, true, log_mode::real_time, nullptr, nullptr), std::invalid_argument);
-        REQUIRE_THROWS_AS(session_trace(session_trace_name, true, log_mode::real_time, cb_event, nullptr), std::invalid_argument);
-        REQUIRE_THROWS_AS(session_trace(session_trace_name, true, log_mode::real_time, nullptr, cb_buffer), std::invalid_argument);
-        REQUIRE_THROWS_AS(session_trace(session_trace_name, false, log_mode::real_time, nullptr, nullptr), std::invalid_argument);
-        REQUIRE_THROWS_AS(session_trace(session_trace_name, false, log_mode::real_time, cb_event, nullptr), std::invalid_argument);
-        REQUIRE_THROWS_AS(session_trace(session_trace_name, false, log_mode::real_time, nullptr, cb_buffer), std::invalid_argument);
+        THEN("constructor will throw") {
+            REQUIRE_THROWS_AS(session_trace(session_trace_name, true, log_mode::real_time, nullptr, nullptr), std::invalid_argument);
+            REQUIRE_THROWS_AS(session_trace(session_trace_name, true, log_mode::real_time, cb_event, nullptr), std::invalid_argument);
+            REQUIRE_THROWS_AS(session_trace(session_trace_name, true, log_mode::real_time, nullptr, cb_buffer), std::invalid_argument);
+            REQUIRE_THROWS_AS(session_trace(session_trace_name, false, log_mode::real_time, nullptr, nullptr), std::invalid_argument);
+            REQUIRE_THROWS_AS(session_trace(session_trace_name, false, log_mode::real_time, cb_event, nullptr), std::invalid_argument);
+            REQUIRE_THROWS_AS(session_trace(session_trace_name, false, log_mode::real_time, nullptr, cb_buffer), std::invalid_argument);
+        }
     } 
     WHEN("valid arguments are given") {
         AND_WHEN("it consume from file") {
