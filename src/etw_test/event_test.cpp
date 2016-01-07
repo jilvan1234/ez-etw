@@ -26,11 +26,9 @@ GUID get_guid() {
 }
 
 TEST_CASE("event creation", "[event]") {
-	static const unsigned int process_id = 42;
 	static const long long timestamp = 123;
 	std::string buffer = "Hello world!";
-    event evt(get_guid(), timestamp, process_id, buffer.c_str(), buffer.length());
-	REQUIRE(evt.get_process_id() == process_id);
+    event evt(get_guid(), timestamp, buffer.c_str(), buffer.length());
 	REQUIRE(evt.get_timestamp() == timestamp);
 	REQUIRE(IsEqualGUID(evt.get_guid(), get_guid()));
 	auto event_buffer = evt.get_buffer();
@@ -40,7 +38,7 @@ TEST_CASE("event creation", "[event]") {
 
 TEST_CASE("event type supported", "[event]") {
 	std::string buffer = "";
-	event evt(get_guid(), 0, 0, buffer.c_str(), buffer.length());
+	event evt(get_guid(), 0, buffer.c_str(), buffer.length());
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_START));
 	REQUIRE(evt.get_type() == event::type::start);
 	REQUIRE(evt.set_type(EVENT_TRACE_TYPE_END));

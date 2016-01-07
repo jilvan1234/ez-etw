@@ -9,8 +9,8 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
-event::event(const GUID& guid, const unsigned long long& timestamp, unsigned int process_id, const char* buffer, size_t buffer_size)
-:m_process_id(process_id), m_timestamp(timestamp), m_guid(guid), m_type(type::info), m_version(0), m_buffer(make_shared<std::string>(buffer, buffer_size)) {
+event::event(const GUID& guid, const unsigned long long& timestamp, const char* buffer, size_t buffer_size)
+:m_timestamp(timestamp), m_guid(guid), m_type(type::info), m_version(0), m_buffer(make_shared<std::string>(buffer, buffer_size)) {
 }
 
 bool event::set_type(unsigned int type) {
@@ -31,6 +31,9 @@ bool event::set_type(unsigned int type) {
 		case EVENT_TRACE_TYPE_DC_END:
 			m_type = type::data_collection_end;
 			break;
+		case 39: // defunct
+			m_type = type::defunct;
+			break;
 		default:
 			IsValid = false;
 	}
@@ -45,9 +48,6 @@ const GUID& event::get_guid() const {
     return m_guid;
 }
 
-unsigned int event::get_process_id() const {
-    return m_process_id;
-}
 unsigned long long event::get_timestamp() const {
     return m_timestamp;
 }

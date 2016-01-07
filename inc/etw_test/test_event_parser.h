@@ -9,8 +9,8 @@ static const std::string test_buffer("hello world!");
 static const unsigned long long test_timestamp = 0;
 
 struct test_event : public ez_etw::parsed_event {
-	test_event(const GUID& guid, unsigned int pid)
-    :parsed_event(ez_etw::event(guid, test_timestamp, pid, test_buffer.c_str(), test_buffer.length())) {
+	test_event(const GUID& guid)
+    :parsed_event(ez_etw::event(guid, test_timestamp, test_buffer.c_str(), test_buffer.length())) {
 	}
 	virtual ~test_event() = default;
 };
@@ -22,7 +22,7 @@ struct test_event_parser : public ez_etw::event_parser {
 	virtual ~test_event_parser() = default;
 private:
 	virtual bool parse_event(const std::shared_ptr<ez_etw::event>& evt, std::deque<std::shared_ptr<ez_etw::parsed_event>>& events) const {
-		events.emplace_back(std::make_shared<test_event>(evt->get_guid(), evt->get_process_id()));
+		events.emplace_back(std::make_shared<test_event>(evt->get_guid()));
 		return true;
 	}
 };

@@ -6,12 +6,18 @@
 
 namespace ez_etw {
 	struct parsed_event {
+		enum status {
+			success,
+			incomplete,
+			unsupported_type
+		};
         parsed_event(const ez_etw::event& evt);
 		virtual ~parsed_event() = default;
         time_t get_timestamp() const;
-        unsigned int get_pid() const;
+		status get_status() const;
+	protected:
+		status m_status = incomplete;
     private:
-        unsigned int m_pid;
         time_t m_timestamp;
 	};
 }
