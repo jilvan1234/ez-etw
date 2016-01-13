@@ -2,8 +2,8 @@
 
 using ez_etw::parsed_event;
 
-parsed_event::parsed_event(const ez_etw::event& evt)
-:m_timestamp(evt.get_timestamp()) {
+parsed_event::parsed_event(const ez_etw::event& evt, unsigned long pointer_size)
+:m_timestamp(evt.get_timestamp()), m_pointer_size(pointer_size) {
 }
 
 time_t parsed_event::get_timestamp() const {

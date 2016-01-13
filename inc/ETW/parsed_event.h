@@ -11,12 +11,13 @@ namespace ez_etw {
 			incomplete,
 			unsupported_type
 		};
-        parsed_event(const ez_etw::event& evt);
+        parsed_event(const ez_etw::event& evt, unsigned long pointer_size);
 		virtual ~parsed_event() = default;
         time_t get_timestamp() const;
 		status get_status() const;
 	protected:
 		status m_status = incomplete;
+		unsigned long m_pointer_size;
     private:
         time_t m_timestamp;
 	};
