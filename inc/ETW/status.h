@@ -3,11 +3,11 @@
 
 namespace ez_etw {
     enum status {
-        SUCCESS,
-        INVALID_ARGUMENT,
-        ALREADY_EXIST,
-        NOT_RUNNING,
-        ACCES_DENIED
+        success,
+        invalid_argument,
+        already_exist,
+        not_running,
+        access_denied
     };
     status to_status(unsigned int status);
 }

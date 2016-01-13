@@ -9,18 +9,18 @@ status ez_etw::to_status(unsigned int s) {
     switch (s)
     {
     case ERROR_SUCCESS:
-        ret = status::SUCCESS;
+        ret = status::success;
         break;
     case ERROR_INVALID_PARAMETER:
     case ERROR_BAD_LENGTH:
     case ERROR_BAD_PATHNAME:
-        ret = status::INVALID_ARGUMENT;
+        ret = status::invalid_argument;
         break;
     case ERROR_ALREADY_EXISTS:
-        ret = status::ALREADY_EXIST;
+        ret = status::already_exist;
         break;
     case ERROR_ACCESS_DENIED:
-        ret = status::ACCES_DENIED;
+        ret = status::access_denied;
         break;
     default:
         DebugBreak();
