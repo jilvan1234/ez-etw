@@ -35,3 +35,11 @@ bool event_parser::parse(std::shared_ptr<event> evt) {
 	}
 	return parsed;
 }
+
+void event_parser::set_pointer_size(shared_ptr<unsigned long> pointer_size) {
+	m_pointer_size = pointer_size;
+}
+
+unsigned long event_parser::get_pointer_size() const {
+	return *m_pointer_size;
+}

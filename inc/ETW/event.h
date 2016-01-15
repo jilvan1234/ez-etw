@@ -19,7 +19,6 @@ namespace ez_etw {
 		virtual ~event() = default;
 		bool set_type(unsigned int type);
         void set_version(unsigned short version);
-
         const GUID& get_guid() const;
         unsigned long long get_timestamp() const;
         type get_type() const;
