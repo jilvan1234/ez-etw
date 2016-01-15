@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Public\parsed_events\process">
       <UniqueIdentifier>{ad469cad-9588-4497-bac6-4b4e3512f559}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\parsed_events">
+      <UniqueIdentifier>{da620a97-ad8a-48ad-90bf-e1a0ce99140b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ETW\properties.cpp">
@@ -72,6 +75,12 @@
     <ClCompile Include="..\..\..\src\etw\parsed_event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\parsed_event_process.cpp">
+      <Filter>Source Files\parsed_events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\process_v4.cpp">
+      <Filter>Source Files\parsed_events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h">
@@ -110,10 +119,10 @@
     <ClInclude Include="..\..\..\inc\ETW\event_parser.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\inc\etw\parsed_events_process.h">
+    <ClInclude Include="..\..\..\inc\etw\parsed_event_process.h">
       <Filter>Header Files\Public\parsed_events\process</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\inc\etw\process_vista.h">
+    <ClInclude Include="..\..\..\inc\etw\process_v4.h">
       <Filter>Header Files\Public\parsed_events\process</Filter>
     </ClInclude>
   </ItemGroup>
