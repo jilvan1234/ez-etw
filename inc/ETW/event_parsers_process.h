@@ -9,6 +9,9 @@ namespace ez_etw {
             process();
             virtual ~process() = default;
         private:
+			enum version {
+				v4 = 4
+			};
             static const GUID guid;
             virtual bool parse_event(const std::shared_ptr<ez_etw::event>& evt, std::deque<std::shared_ptr<ez_etw::parsed_event>>& events) const;
         };

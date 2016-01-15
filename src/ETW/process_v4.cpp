@@ -66,26 +66,29 @@ v4::v4(const event& evt, unsigned long pointer_size)
 			//ss.read(reinterpret_cast<char*>(&), sizeof()) &&
 			//ss.read(reinterpret_cast<char*>(&), sizeof()) &&
 		{
-			static const unsigned int sid_marker = 0x4;
+			std::cout << m_pid << "\t";
+			//static const unsigned int sid_marker = 0x4;
 			streampos current_stream_pos = ss.tellg();
 			char* byte_ptr = const_cast<char*>(buffer_str.data()) + current_stream_pos;
 			ULONG* blob_start = reinterpret_cast<ULONG*>(byte_ptr);
-			bool sid_exists = blob_start != nullptr && *blob_start == 0x4;
-			if(sid_exists) {
+			bool sid_exists = blob_start != nullptr && *blob_start != 0;
+			//if(sid_exists) {
 				ULONG delta = sizeof(ULONG) + 2 * m_pointer_size;
 				PSID sid = byte_ptr + delta;
 				DWORD length = GetLengthSid(sid);
 				LPTSTR sid_str = nullptr;
 				if(IsValidSid(sid) != 0 && 
-					ConvertSidToStringSidA(sid, &sid_str) != 0)
-				{
-					std::cout << "\tSID is " << sid_str << std::endl;
+					ConvertSidToStringSidA(sid, &sid_str) != 0) {
+					std::cout << "SID:" << sid_str << std::endl;
 					LocalFree(sid_str);
+				} else {
+					std::cout << "NO SID" << std::endl;
 				}
-			}
-			else
-			{
-				std::cout << "\tNo sid" << std::endl;
+			//} else {
+			//	std::cout << "\tNo sid" << std::endl;
+			//}
+			if(!sid_exists) {
+				std::cout << "\tNo SID..." << std::endl;
 			}
 			m_status = success;
 		}		

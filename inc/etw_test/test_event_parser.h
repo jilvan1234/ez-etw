@@ -10,7 +10,7 @@ static const unsigned long long test_timestamp = 0;
 
 struct test_event : public ez_etw::parsed_event {
 	test_event(const GUID& guid)
-    :parsed_event(ez_etw::event(guid, test_timestamp, test_buffer.c_str(), test_buffer.length())) {
+    :parsed_event(ez_etw::event(guid, test_timestamp, test_buffer.c_str(), test_buffer.length()), 0) {
 	}
 	virtual ~test_event() = default;
 };
