@@ -17,7 +17,7 @@ session_trace::session_trace(const std::wstring& name, const bool consume_from_f
         throw std::invalid_argument(exception_invalid_callbacks);
     }
     memset(&m_trace_log, 0, sizeof(m_trace_log));
-    wchar_t* ptr_name = const_cast<wchar_t*>(name.c_str());
+	wchar_t* ptr_name = const_cast<wchar_t*>(name.c_str());
     if (consume_from_file) {
         m_trace_log.LogFileName = ptr_name;
     } else {

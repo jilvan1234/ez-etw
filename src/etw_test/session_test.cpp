@@ -18,7 +18,7 @@ using ez_etw::event;
 using ez_etw::parsed_event;
 static const wstring session_generic_name(L"ez_etw__session_test");
 
-TEST_CASE("a new session context is not running by default", "[session_ctx]") {
+TEST_CASE("a new session context is not running by default", "[session]") {
     GIVEN("consuming from a kernel session") {
         ez_etw::session session_ctx(ez_etw::controller::kernel_name, false, ez_etw::log_mode::real_time);
         THEN("the session context is not running") {
@@ -33,7 +33,7 @@ TEST_CASE("a new session context is not running by default", "[session_ctx]") {
     }
 }
 
-TEST_CASE("a session context can be started to log events", "[session_ctx]") {
+TEST_CASE("a session context can be started to log events", "[session]") {
     ez_etw::session session_ctx(ez_etw::controller::kernel_name, false, ez_etw::log_mode::real_time);
 	GIVEN("that the session was not started") {
 		THEN("trying to stop it won't do anything") {
@@ -48,7 +48,7 @@ TEST_CASE("a session context can be started to log events", "[session_ctx]") {
 	}
 }
 
-TEST_CASE("event parser can be added to a session context", "[session_ctx]") {
+TEST_CASE("event parser can be added to a session context", "[session]") {
     ez_etw::session session_ctx(ez_etw::controller::kernel_name, false, ez_etw::log_mode::real_time);
 	auto parser = std::make_shared<test_event_parser>(test_guid0);
 	GIVEN("that the session is started") {
@@ -66,4 +66,11 @@ TEST_CASE("event parser can be added to a session context", "[session_ctx]") {
 			REQUIRE(session_ctx.start());
 		}
 	}
+}
+
+TEST_CASE("start/stop", "[session][test]") {
+	ez_etw::session session_ctx(ez_etw::controller::kernel_name, false, ez_etw::log_mode::real_time);
+	REQUIRE(session_ctx.start());
+	REQUIRE(session_ctx.stop());
+
 }

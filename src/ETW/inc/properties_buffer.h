@@ -12,9 +12,9 @@ namespace ez_etw {
     enum kernel_flags : unsigned long;
 
     struct properties_buffer {
-        static const unsigned long MAX_STRING_LENGTGH = 1024 * sizeof(wchar_t);
-        static const unsigned long BUFFER_SIZE = sizeof(EVENT_TRACE_PROPERTIES) + 2 * (MAX_STRING_LENGTGH);
-        using buffer_type = unsigned char[BUFFER_SIZE];
+        static const unsigned long max_name_length = 1024 * sizeof(wchar_t);
+        static const unsigned long buffer_size = sizeof(EVENT_TRACE_PROPERTIES) + 2 * (max_name_length);
+        using buffer_type = unsigned char[buffer_size];
         
         properties_buffer(const kernel_flags& flags);
         ~properties_buffer() = default;

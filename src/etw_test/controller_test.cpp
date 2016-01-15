@@ -37,16 +37,16 @@ TEST_CASE("a controller can be started and stopped", TEST_TAG.c_str()) {
         THEN("it cannot be stopped if it is not running") {
             REQUIRE_FALSE(ctrl.is_running());
             status ctrl_status(ctrl.stop());
-            REQUIRE(ctrl_status == status::NOT_RUNNING);
+            REQUIRE(ctrl_status == status::not_running);
         }
         THEN("it can start") {
             status ctrl_status(ctrl.start(props));
-            REQUIRE(ctrl_status == status::SUCCESS);
+            REQUIRE(ctrl_status == status::success);
             REQUIRE(ctrl.is_running());
             AND_WHEN("it is asked to stop") {
                 ctrl_status = ctrl.stop();
                 AND_THEN("it is stopped") {
-                    REQUIRE(ctrl_status == status::SUCCESS);
+                    REQUIRE(ctrl_status == status::success);
                     REQUIRE_FALSE(ctrl.is_running());
                 }
             }
@@ -56,16 +56,16 @@ TEST_CASE("a controller can be started and stopped", TEST_TAG.c_str()) {
             status status_ctrl(ctrl.start(props));
             status status_ctrl_dup(ctrl.start(props));
             THEN("only the first context be started") {
-                REQUIRE(status_ctrl == status::SUCCESS);
-                REQUIRE(status_ctrl_dup == status::ALREADY_EXIST);
+                REQUIRE(status_ctrl == status::success);
+                REQUIRE(status_ctrl_dup == status::already_exist);
                 REQUIRE(ctrl.is_running());
                 REQUIRE_FALSE(ctrl_dup.is_running());
                 WHEN("both are asked to stop") {
                     status_ctrl = ctrl.stop();
                     status_ctrl_dup = ctrl_dup.stop();
                     THEN("only the one that was started can stop") {
-                        REQUIRE(status_ctrl == status::SUCCESS);
-                        REQUIRE(status_ctrl_dup == status::NOT_RUNNING);
+                        REQUIRE(status_ctrl == status::success);
+                        REQUIRE(status_ctrl_dup == status::not_running);
                         REQUIRE_FALSE(ctrl.is_running());
                         REQUIRE_FALSE(ctrl_dup.is_running());
                     }
@@ -82,12 +82,12 @@ TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) 
             properties props(log_mode::real_time, kernel_flags::process);
             THEN("the kernel controller is started") {
                 status ctrl_status(ctrl.start(props));
-                REQUIRE(ctrl_status == status::SUCCESS);
+                REQUIRE(ctrl_status == status::success);
                 REQUIRE(ctrl.is_running());
                 AND_WHEN("it is asked to stop") {
                     ctrl_status = ctrl.stop();
                     THEN("it stops") {
-                        REQUIRE(ctrl_status == status::SUCCESS);
+                        REQUIRE(ctrl_status == status::success);
                         REQUIRE_FALSE(ctrl.is_running());
                     }
                 }
@@ -97,12 +97,12 @@ TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) 
             properties props(log_mode::real_time);
             THEN("the kernel controller is not started") {
                 status ctrl_status(ctrl.start(props));
-                REQUIRE(ctrl_status == status::INVALID_ARGUMENT);
+                REQUIRE(ctrl_status == status::invalid_argument);
                 REQUIRE_FALSE(ctrl.is_running());
                 AND_WHEN("it is asked to stop") {
                     ctrl_status = ctrl.stop();
                     THEN("it cannot stop") {
-                        REQUIRE(ctrl_status == status::NOT_RUNNING);
+                        REQUIRE(ctrl_status == status::not_running);
                         REQUIRE_FALSE(ctrl.is_running());
                     }
                 }
@@ -112,12 +112,12 @@ TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) 
             properties props(log_mode::real_time, kernel_flags::none);
             THEN("the kernel controller is not started") {
                 status ctrl_status(ctrl.start(props));
-                REQUIRE(ctrl_status == status::INVALID_ARGUMENT);
+                REQUIRE(ctrl_status == status::invalid_argument);
                 REQUIRE_FALSE(ctrl.is_running());
                 AND_WHEN("it is asked to stop") {
                     ctrl_status = ctrl.stop();
                     THEN("it cannot stop") {
-                        REQUIRE(ctrl_status == status::NOT_RUNNING);
+                        REQUIRE(ctrl_status == status::not_running);
                         REQUIRE_FALSE(ctrl.is_running());
                     }
                 }
@@ -130,12 +130,12 @@ TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) 
             properties props(log_mode::real_time, kernel_flags::process);
             THEN("the generic controller is started") {
                 status ctrl_status(ctrl.start(props));
-                REQUIRE(ctrl_status == status::INVALID_ARGUMENT);
+                REQUIRE(ctrl_status == status::invalid_argument);
                 REQUIRE_FALSE(ctrl.is_running());
                 AND_WHEN("it is asked to stop") {
                     ctrl_status = ctrl.stop();
                     THEN("it cannot stop") {
-                        REQUIRE(ctrl_status == status::NOT_RUNNING);
+                        REQUIRE(ctrl_status == status::not_running);
                         REQUIRE_FALSE(ctrl.is_running());
                     }
                 }
@@ -145,12 +145,12 @@ TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) 
             properties props(log_mode::real_time);
             THEN("the generic controller is started") {
                 status ctrl_status(ctrl.start(props));
-                REQUIRE(ctrl_status == status::SUCCESS);
+                REQUIRE(ctrl_status == status::success);
                 REQUIRE(ctrl.is_running());
                 AND_WHEN("it is asked to stop") {
                     ctrl_status = ctrl.stop();
                     THEN("it stops") {
-                        REQUIRE(ctrl_status == status::SUCCESS);
+                        REQUIRE(ctrl_status == status::success);
                         REQUIRE_FALSE(ctrl.is_running());
                     }
                 }
@@ -160,12 +160,12 @@ TEST_CASE("starting a controller needs the right properties", TEST_TAG.c_str()) 
             properties props(log_mode::real_time, kernel_flags::none);
             THEN("the generic controller is started") {
                 status ctrl_status(ctrl.start(props));
-                REQUIRE(ctrl_status == status::SUCCESS);
+                REQUIRE(ctrl_status == status::success);
                 REQUIRE(ctrl.is_running());
                 AND_WHEN("it is asked to stop") {
                     ctrl_status = ctrl.stop();
                     THEN("it stops") {
-                        REQUIRE(ctrl_status == status::SUCCESS);
+                        REQUIRE(ctrl_status == status::success);
                         REQUIRE_FALSE(ctrl.is_running());
                     }
                 }

@@ -21,7 +21,7 @@ m_is_running(false) {
 }
 
 status controller_ctx::start(const properties& props) {
-    status status(status::ALREADY_EXIST);
+    status status(status::already_exist);
     if(!m_is_running) {
         const unsigned long flags(props.get_ptr()->get_struct()->EnableFlags);
         const bool have_coherent_flags = (!m_is_kernel_logger && flags == kernel_flags::none) ||
@@ -31,24 +31,24 @@ status controller_ctx::start(const properties& props) {
             properties::ptr_type::element_type* const props_buffer = props.get_ptr();
             const ULONG start_status = StartTraceW(&handle, m_name.c_str(), props_buffer->get_struct());
             status = to_status(start_status);
-            m_is_running = start_status == status::SUCCESS;
+            m_is_running = start_status == status::success;
             if (m_is_running) {
                 m_handle = handle;
             }
         } else {
-            status = status::INVALID_ARGUMENT;
+            status = status::invalid_argument;
         }
     }
     return status;
 }
 
 status controller_ctx::stop() {
-    status status = status::NOT_RUNNING;
+    status status = status::not_running;
     if(m_is_running) {
         const properties props(log_mode::real_time); // we don't "need" log_mode for stopping the trace
         const ULONG stop_status = StopTraceW(m_handle, m_name.c_str(), props.get_ptr()->get_struct());
         status = to_status(stop_status);
-        m_is_running = !(stop_status == status::SUCCESS);
+        m_is_running = !(stop_status == status::success);
         if(!m_is_running) {
             m_handle = HANDLE_DEFAULT_VALUE;
         }
