@@ -5,6 +5,7 @@
 #include <iostream>
 #include <map>
 #include <mutex>
+#include <condition_variable>
 
 using std::memset;
 using std::thread;
