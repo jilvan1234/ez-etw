@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -143,9 +143,11 @@
     <ClCompile Include="..\..\..\src\etw_test\properties_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\session_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\session_trace_test.cpp" />
+    <ClCompile Include="..\..\..\src\etw_test\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\inc\etw_test\test_event_parser.h" />
+    <ClInclude Include="..\..\..\inc\etw_test\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
