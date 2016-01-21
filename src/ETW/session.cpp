@@ -1,11 +1,12 @@
 #include <etw/session.h>
-#include "inc/guid_comparator.h"
+#include <etw/guid_comparator.h>
 #include "inc/session_trace.h"
 #include "inc/properties_buffer.h"
 #include <iostream>
 #include <map>
 #include <mutex>
 #include <condition_variable>
+#include <algorithm>
 
 using std::memset;
 using std::thread;
@@ -30,17 +31,27 @@ using lock_type = std::lock_guard<std::mutex>;
 
 enum event_parser_action {
 	event_parser_action_query,
-	event_parser_action_insert
+	event_parser_action_insert,
+	event_parser_action_remove
 };
 
-static map<GUID, std::shared_ptr<event_parser>, guid_comparator>& event_parser_do(event_parser_action action, GUID* key, std::shared_ptr<event_parser> value, shared_ptr<unsigned long> trace_pointer_size, bool* success) {
+static map<GUID, std::shared_ptr<event_parser>, guid_comparator>& event_parser_do(event_parser_action action, const GUID* key, std::shared_ptr<event_parser> value, shared_ptr<unsigned long> trace_pointer_size, bool* success) {
 	static map<GUID, std::shared_ptr<event_parser>, guid_comparator> parsables;
-	if(!g_is_running && event_parser_action_insert == action && nullptr != key && nullptr != value) {
-		if(parsables.find(*key) == end(parsables)) {
-			std::pair<GUID, std::shared_ptr<event_parser>> p(*key, value);
-			p.second->set_pointer_size(trace_pointer_size);
-			auto inserted = parsables.emplace(p);
-			*success = inserted.second;
+	success = false;
+	if(!g_is_running) {
+		if(event_parser_action_insert == action && nullptr != key && nullptr != value && nullptr != success) {
+			if(parsables.find(*key) == end(parsables)) {
+				std::pair<GUID, std::shared_ptr<event_parser>> p(*key, value);
+				p.second->set_pointer_size(trace_pointer_size);
+				auto inserted = parsables.emplace(p);
+				*success = inserted.second;
+			}
+		} else if(event_parser_action_remove == action && nullptr != key && nullptr != value) {
+			const auto itt = parsables.find(*key);
+			if(itt != end(parsables)) {
+				parsables.erase(itt);
+				//*success = parsables.find(*key) == end(parsables);
+			}
 		}
 	}
 	return parsables;
@@ -86,13 +97,29 @@ session::session(const std::wstring& name, const bool consume_from_file, const e
 
 bool session::parsers_add(std::shared_ptr<event_parser> parser) {
     lock_type lock(m_mutex_is_running);
-	bool is_added = false;
-	event_parser_do(event_parser_action::event_parser_action_insert, &parser->get_event_type(), parser, m_pointer_size, &is_added);
-	return is_added;
+	bool is_added_global = false;
+	event_parser_do(event_parser_action::event_parser_action_insert, &parser->get_event_type(), parser, m_pointer_size, &is_added_global);
+	bool is_added_local = false;
+	if(is_added_global) {
+		auto itt = m_parsers.emplace(parser->get_event_type(), parser);
+		is_added_local = itt.second;
+	}
+	return is_added_global && is_added_local;
+}
+
+void session::parsers_remove_all() {
+	using std::for_each;
+	using std::pair;
+	lock_type lock(m_mutex_is_running);
+	for_each(begin(m_parsers), end(m_parsers), [](decltype(m_parsers)::value_type& elem) {
+		event_parser_do(event_parser_action::event_parser_action_remove, &elem.first, elem.second, nullptr, nullptr);
+	});
+	m_parsers.clear();
 }
 
 session::~session() {
 	stop();
+	parsers_remove_all();
 }
 
 bool session::is_running() {

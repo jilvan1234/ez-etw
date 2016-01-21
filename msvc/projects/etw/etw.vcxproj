@@ -145,6 +145,7 @@
     <ClInclude Include="..\..\..\inc\ETW\event.h" />
     <ClInclude Include="..\..\..\inc\ETW\event_parser.h" />
     <ClInclude Include="..\..\..\inc\etw\event_parsers_process.h" />
+    <ClInclude Include="..\..\..\inc\etw\guid_comparator.h" />
     <ClInclude Include="..\..\..\inc\etw\parsed_event_process.h" />
     <ClInclude Include="..\..\..\inc\ETW\parsed_event.h" />
     <ClInclude Include="..\..\..\inc\etw\process_v4.h" />
@@ -152,7 +153,6 @@
     <ClInclude Include="..\..\..\inc\etw\session.h" />
     <ClInclude Include="..\..\..\inc\etw\status.h" />
     <ClInclude Include="..\..\..\src\etw\inc\controller_ctx.h" />
-    <ClInclude Include="..\..\..\src\etw\inc\guid_comparator.h" />
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h" />
     <ClInclude Include="..\..\..\src\etw\inc\session_trace.h" />
   </ItemGroup>

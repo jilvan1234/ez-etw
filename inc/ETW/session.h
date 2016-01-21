@@ -3,9 +3,11 @@
 
 #include <etw/properties.h>
 #include <etw/event_parser.h>
+#include <etw/guid_comparator.h>
 #include <string>
 #include <thread>
 #include <mutex>
+#include <map>
 
 namespace ez_etw {
     struct session_trace;
@@ -19,11 +21,13 @@ namespace ez_etw {
 		bool start();
 		bool stop();
 	private:
+		void parsers_remove_all();
         trace_type m_trace;
         std::unique_ptr<std::thread> m_trace_thread;
 		std::shared_ptr<unsigned long> m_pointer_size;
 		uint64_t m_trace_handle;
 		std::mutex m_mutex_is_running;
+		std::map<GUID, std::shared_ptr<event_parser>, guid_comparator> m_parsers;
 	};
 
 }

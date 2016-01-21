@@ -1,4 +1,4 @@
-#include "inc/guid_comparator.h"
+#include <etw/guid_comparator.h>
 
 using ez_etw::guid_comparator;
 
