@@ -137,6 +137,7 @@
     <ClCompile Include="..\..\..\src\etw\properties.cpp" />
     <ClCompile Include="..\..\..\src\etw\properties_buffer.cpp" />
     <ClCompile Include="..\..\..\src\etw\session.cpp" />
+    <ClCompile Include="..\..\..\src\etw\session_global.cpp" />
     <ClCompile Include="..\..\..\src\etw\session_trace.cpp" />
     <ClCompile Include="..\..\..\src\etw\status.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <ClInclude Include="..\..\..\inc\etw\status.h" />
     <ClInclude Include="..\..\..\src\etw\inc\controller_ctx.h" />
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h" />
+    <ClInclude Include="..\..\..\src\etw\inc\session_global.h" />
     <ClInclude Include="..\..\..\src\etw\inc\session_trace.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

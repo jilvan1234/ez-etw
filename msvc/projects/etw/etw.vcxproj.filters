@@ -81,6 +81,9 @@
     <ClCompile Include="..\..\..\src\etw\process_v4.cpp">
       <Filter>Source Files\parsed_events</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\session_global.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\inc\etw\guid_comparator.h">
       <Filter>Header Files\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\etw\inc\session_global.h">
+      <Filter>Header Files\Private</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
