@@ -1,16 +1,19 @@
 #include <etw/process_v4.h>
+#include <iomanip>
+#include <Windows.h> // needed for ULONG
+#include <iterator>
+#include <string>
 
 using ez_etw::event;
 using ez_etw::parsed_event;
 using ez_etw::parsed_events::process::v4;
-
-#include <iomanip>
-#include <array>
-#include <Windows.h>
-#include <Sddl.h>
-#include <list>
+using std::stringstream;
+using std::string;
+using std::streampos;
+using std::copy;
 
 /*
+see: http://wutils.com/wmi/root/wmi/process_v4_typegroup1/
 1 - uint32 UniqueProcessKey; (c)
 2 - uint32 ProcessId; (p)
 3 - uint32 ParentId; (p)
@@ -22,25 +25,48 @@ using ez_etw::parsed_events::process::v4;
 9 - string ImageFileName; (p)
 10 - wstring CommandLine; (c)
 */
-using std::stringstream;
-using std::array;
-//using std::stoi;
-using std::string;
-using std::streampos;
-using std::list;
 
+#include <iostream> // TODO dev only
 
-static bool set_sid_ex(stringstream& ss, uintptr_t pointer_size) {
-
-	bool success = false;
-
-	auto p = ss.rdbuf();
-	auto s = p->str();
-
-	return success;
+bool v4::set_sid(stringstream& ss, std::string& buffer_str, uintptr_t pointer_size) {
+	const streampos current_stream_pos = ss.tellg();
+	const size_t delta = sizeof(ULONG) + 2 * pointer_size;
+	const char* byte_ptr = buffer_str.data() + current_stream_pos;
+	size_t length = 0;
+	bool is_set = ez_etw::parsed_events::parse_event_process::set_sid(byte_ptr, pointer_size, length);
+	if(is_set) {
+		ss.seekg(length + delta, std::ios::cur);
+		is_set &= ss.good();
+	}
+	return is_set;
 }
 
-#include <iostream>
+bool v4::set_image_filename(std::stringstream& ss, std::string& buffer_str) {
+	const streampos current_stream_pos = ss.tellg();
+	const char* name_start = buffer_str.data() + current_stream_pos;
+	const size_t name_len = strlen(name_start);
+	bool is_set = false;
+	if(name_len > 0) {
+		copy(name_start, name_start + name_len, std::back_inserter(m_image_filename));
+		ss.seekg(name_len, std::ios::cur);
+		is_set = ss.good();
+	}
+	return is_set;
+}
+
+bool v4::set_command_line(std::stringstream& ss, std::string& buffer_str) {
+	const streampos current_stream_pos = ss.tellg();
+	const char* cmd_line_start = buffer_str.data() + current_stream_pos;
+	const size_t cmd_line_len = wcslen(reinterpret_cast<const wchar_t*>(cmd_line_start));
+	bool is_set = false;
+	if(cmd_line_len > 0) {
+		const size_t bytes_count = cmd_line_len * sizeof(wchar_t);
+		copy(cmd_line_start, cmd_line_start + bytes_count, std::back_inserter(m_command_line));
+		ss.seekg(bytes_count, std::ios::cur);
+		is_set = ss.good();
+	}
+	return is_set;	
+}
 
 v4::v4(const event& evt, unsigned long pointer_size)
 :parse_event_process(evt, pointer_size) {
@@ -49,10 +75,8 @@ v4::v4(const event& evt, unsigned long pointer_size)
 		evt.get_type() == event::type::data_collection_start ||
 		evt.get_type() == event::type::data_collection_end ||
 		evt.get_type() == event::type::defunct) {
-		
 		string buffer_str = *evt.get_buffer();
 		stringstream ss(buffer_str);
-		
 		unsigned int directory_table_base;	
 		unsigned int flags;
 		if(ss.read(reinterpret_cast<char*>(&m_unique_key), sizeof(m_unique_key)).good() &&
@@ -61,37 +85,16 @@ v4::v4(const event& evt, unsigned long pointer_size)
 			ss.read(reinterpret_cast<char*>(&m_session_id), sizeof(m_session_id)).good() &&
 			ss.read(reinterpret_cast<char*>(&m_exit_status), sizeof(m_exit_status)).good() &&
 			ss.read(reinterpret_cast<char*>(&directory_table_base), sizeof(directory_table_base)).good() &&
-			ss.read(reinterpret_cast<char*>(&flags), sizeof(flags)) )// &&
-			//ss.read(reinterpret_cast<char*>(&), sizeof()) &&
-			//ss.read(reinterpret_cast<char*>(&), sizeof()) &&
-			//ss.read(reinterpret_cast<char*>(&), sizeof()) &&
+			ss.read(reinterpret_cast<char*>(&flags), sizeof(flags)).good() &&
+			set_sid(ss, buffer_str, m_pointer_size) &&
+			set_image_filename(ss, buffer_str) &&
+			set_command_line(ss, buffer_str))
 		{
-			std::cout << m_pid << "\t";
-			//static const unsigned int sid_marker = 0x4;
-			streampos current_stream_pos = ss.tellg();
-			char* byte_ptr = const_cast<char*>(buffer_str.data()) + current_stream_pos;
-			ULONG* blob_start = reinterpret_cast<ULONG*>(byte_ptr);
-			bool sid_exists = blob_start != nullptr && *blob_start != 0;
-			//if(sid_exists) {
-				ULONG delta = sizeof(ULONG) + 2 * m_pointer_size;
-				PSID sid = byte_ptr + delta;
-				DWORD length = GetLengthSid(sid);
-				LPTSTR sid_str = nullptr;
-				if(IsValidSid(sid) != 0 && 
-					ConvertSidToStringSidA(sid, &sid_str) != 0) {
-					std::cout << "SID:" << sid_str << std::endl;
-					LocalFree(sid_str);
-				} else {
-					std::cout << "NO SID" << std::endl;
-				}
-			//} else {
-			//	std::cout << "\tNo sid" << std::endl;
-			//}
-			if(!sid_exists) {
-				std::cout << "\tNo SID..." << std::endl;
-			}
 			m_status = success;
-		}		
+		}
+		std::cout << static_cast<signed int>(m_session_id) << "|" << m_pid << "(" << m_parent_pid << ") " << " " << m_image_filename <<  std::endl;
+		std::wcout << "\t" << m_command_line << std::endl;
+		std::cout << "\t" << m_user_sid << std::endl;
 	} else {
 		m_status = unsupported_type;
 	}

@@ -9,7 +9,7 @@ namespace ez_etw {
 			parse_event_process(const event& evt, unsigned long pointer_size);
             virtual ~parse_event_process() = default;
 		protected:
-			bool set_sid(std::stringstream& ss, unsigned long pointer_size);
+			bool set_sid(const char* sid_start, uintptr_t pointer_size, size_t& user_sid_length);
 			unsigned int m_pid;
 			unsigned int m_parent_pid = std::numeric_limits<unsigned int>::max();
 			std::string m_user_sid;

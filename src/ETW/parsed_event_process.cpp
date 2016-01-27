@@ -1,29 +1,31 @@
 #include <etw/parsed_event_process.h>
-//#include <win/ntifs.h>
+#include <Windows.h>
+#include <Sddl.h>
+#include <algorithm>
+#include <iterator>
 
 using ez_etw::parsed_events::parse_event_process;
+using std::copy;
+using std::back_inserter;
 
 parse_event_process::parse_event_process(const ez_etw::event& evt, unsigned long pointer_size)
 :parsed_event(evt, pointer_size) {
 }
 
-bool parse_event_process::set_sid(std::stringstream& ss, unsigned long pointer_size) {
-	static unsigned int sid_blob_start = 0x4;
-	//if(pointer_size > 0)
-	{
-		unsigned int blob_start;
-		bool success = ss.read(reinterpret_cast<char*>(&blob_start), sizeof(blob_start)).good();
-		if(success && blob_start == sid_blob_start) {
-
-
-			uintptr_t blob_inc = pointer_size * 2;
-			//ss.rea
-			
-			//SeLengthSid(
-			
-
-
+bool parse_event_process::set_sid(const char* sid_start, uintptr_t pointer_size, size_t& user_sid_length) {
+	bool is_set = false;
+	if(nullptr != sid_start) {
+		size_t delta = sizeof(ULONG) + 2 * pointer_size;
+		PSID sid = static_cast<PSID>(const_cast<char*>(sid_start) + delta);
+		LPTSTR sid_str = nullptr;
+		user_sid_length = GetLengthSid(sid);
+		if(user_sid_length > 0 &&
+			IsValidSid(sid) != 0 && 
+			ConvertSidToStringSidA(sid, &sid_str) != 0) {
+			copy(sid_str, sid_str + strlen(sid_str), back_inserter(m_user_sid));
+			LocalFree(sid_str);
+			is_set = true;
 		}
 	}
-	return false && ss.good();
+	return is_set;
 }
