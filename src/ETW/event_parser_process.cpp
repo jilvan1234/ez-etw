@@ -20,20 +20,21 @@ process::process()
 }
 
 bool process::parse_event(const std::shared_ptr<ez_etw::event>& evt, std::deque<std::shared_ptr<ez_etw::parsed_event>>& events) const {
-    bool is_parsed = true;
 	auto version = evt->get_version();
 	std::shared_ptr<ez_etw::parsed_events::parse_event_process> parsed;	
+	bool is_supported = true;
 	switch(version) {
 		case version::v4: {
 			parsed = make_shared<ez_etw::parsed_events::process::v4>(*evt, get_pointer_size());
 			break;
 		}
 		default:
-			is_parsed = false;
+			is_supported = false;
 	}
-	if(is_parsed && parsed->get_status() == parsed_event::status::success) {
+	bool is_parsed = is_supported && parsed->get_status() == parsed_event::status::success;
+	if(is_parsed) {
 		events.push_back(parsed);
 	}
-    return is_parsed;
+	return is_parsed;
 }
 
