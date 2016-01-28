@@ -53,18 +53,9 @@ static unsigned long __stdcall cb_buffer(EVENT_TRACE_LOGFILEW* const ptr_event_t
 	return g_trace_is_running;
 }
 
-void trace_thread(EVENT_TRACE_LOGFILEW* log, std::shared_ptr<unsigned long>& pointer_size, condition_variable& session_cv, uint64_t& trace_handle) {
-	std::cout << "started" << std::endl;
-	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	trace_handle = OpenTraceW(log);
-    if(GetLastError() == ERROR_SUCCESS) {
-		std::cout << "notify" << std::endl;
-		*pointer_size = log->LogfileHeader.PointerSize;
-		std::cout << "Pointer size is " << log->LogfileHeader.PointerSize << std::endl;
-		session_cv.notify_all();
-        ULONG err = ProcessTrace(&trace_handle, 1, 0, 0);
-        CloseTrace(trace_handle);
-    }
+void trace_thread(uintptr_t trace_handle) {
+    ULONG err = ProcessTrace(&trace_handle, 1, 0, 0);
+    CloseTrace(trace_handle);
 }
 
 session::session(const std::wstring& name, const bool consume_from_file, const ez_etw::log_mode& mode)
@@ -110,15 +101,14 @@ bool session::is_running() {
 bool session::start() {
     lock_type lock(m_mutex_is_running);
     if (!g_trace_is_running) {
-		mutex mut;
-		unique_lock<mutex> session_lk(mut);
-		condition_variable session_cv;
-		std::cout << "starting" << std::endl;
-		m_trace_thread = std::make_unique<std::thread>(trace_thread, m_trace.get()->get_trace_logfile(), std::ref(m_pointer_size), std::ref(session_cv), std::ref(m_trace_handle));
-		std::cout << "waiting" << std::endl;
-		session_cv.wait(session_lk);
-		std::cout << "STARTED with pointer_size " << *m_pointer_size << std::endl;
+		uintptr_t trace_handle = OpenTraceW(m_trace->get_trace_logfile());
+		if(GetLastError() == ERROR_SUCCESS) {
+			m_trace_handle = trace_handle;
+			*m_pointer_size = m_trace->get_trace_logfile()->LogfileHeader.PointerSize;
+			m_trace_thread = std::make_unique<std::thread>(trace_thread, m_trace_handle);
+		}		
 		g_trace_is_running = m_trace_thread != nullptr;
+
 	}
 	return g_trace_is_running;
 }
