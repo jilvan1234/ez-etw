@@ -33,7 +33,7 @@ bool v4::set_sid(stringstream& ss, std::string& buffer_str, uintptr_t pointer_si
 	const size_t delta = sizeof(ULONG) + 2 * pointer_size;
 	const char* byte_ptr = buffer_str.data() + current_stream_pos;
 	size_t length = 0;
-	bool is_set = ez_etw::parsed_events::parse_event_process::set_sid(byte_ptr, pointer_size, length);
+	bool is_set = ez_etw::parsed_events::parsed_event_process::set_sid(byte_ptr, pointer_size, length);
 	if(is_set) {
 		ss.seekg(length + delta, std::ios::cur);
 		is_set &= ss.good();
@@ -69,7 +69,7 @@ bool v4::set_command_line(std::stringstream& ss, std::string& buffer_str) {
 }
 
 v4::v4(const event& evt, unsigned long pointer_size)
-:parse_event_process(evt, pointer_size) {
+:parsed_event_process(evt, pointer_size) {
 	if(evt.get_type() == event::type::start ||
 		evt.get_type() == event::type::end ||
 		evt.get_type() == event::type::data_collection_start ||

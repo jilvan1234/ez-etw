@@ -7,7 +7,7 @@
 namespace ez_etw {
     namespace parsed_events {
         namespace process {
-            struct v4 : ez_etw::parsed_events::parse_event_process {
+            struct v4 : ez_etw::parsed_events::parsed_event_process {
 				v4(const event& evt, unsigned long pointer_size);
                 virtual ~v4() = default;
 			private:

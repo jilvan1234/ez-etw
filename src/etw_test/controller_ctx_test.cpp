@@ -1,6 +1,10 @@
 #include <catch/catch.hpp>
 #include "../src/etw/inc/controller_ctx.h"
 #include <string>
+#include <windef.h>
+#include <winbase.h>
+#include <wmistr.h>
+#include <evntrace.h>
 
 using std::string;
 using std::wstring;
@@ -13,8 +17,7 @@ using ez_etw::log_mode;
 static const wstring CONTROLLER_NAME_GENERIC(L"ez_etw__controller_ctx_test");
 static const wstring& CONTROLLER_NAME_KERNEL(KERNEL_LOGGER_NAMEW);
 
-static const string TEST_TAG = "[controller_ctx]";
-TEST_CASE("construction of a controller context needs a name", TEST_TAG.c_str()) {
+TEST_CASE("construction of a controller context needs a name", "[controller_ctx][construction]") {
     GIVEN("the kernel logger name") {
         controller_ctx ctrl(CONTROLLER_NAME_KERNEL);
         THEN("it is a kernel logger controller") {
@@ -31,7 +34,7 @@ TEST_CASE("construction of a controller context needs a name", TEST_TAG.c_str())
     }
 }
 
-TEST_CASE("a controller context can be started and stopped", TEST_TAG.c_str()) {
+TEST_CASE("a controller context can be started and stopped", "[controller_ctx][start/stop]") {
     GIVEN("generic arguments") {
         controller_ctx ctrl(CONTROLLER_NAME_GENERIC);
         properties props(log_mode::real_time);
@@ -46,7 +49,7 @@ TEST_CASE("a controller context can be started and stopped", TEST_TAG.c_str()) {
             REQUIRE(ctrl.is_running());
             AND_WHEN("it is asked to stop") {
                 ctrl_status = ctrl.stop();
-                AND_THEN("it is stopped") {
+                AND_THEN("it stops") {
                     REQUIRE(ctrl_status == status::success);
                     REQUIRE_FALSE(ctrl.is_running());
                 }
@@ -76,7 +79,7 @@ TEST_CASE("a controller context can be started and stopped", TEST_TAG.c_str()) {
     }
 }
 
-TEST_CASE("starting a controller context needs the right properties", TEST_TAG.c_str()) {
+TEST_CASE("starting a controller context needs the right properties", "[controller_ctx]") {
     GIVEN("the kernel logger name") {
         controller_ctx ctrl(CONTROLLER_NAME_KERNEL);
         WHEN("properties are created with flags") {

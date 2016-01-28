@@ -3,7 +3,7 @@
 #include <etw/process_v4.h>
 
 using ez_etw::event_parsers::process;
-using event_process = ez_etw::parsed_events::parse_event_process;
+using event_process = ez_etw::parsed_events::parsed_event_process;
 using std::make_shared;
 
 //DEFINE_GUID( /* 3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c */
@@ -21,7 +21,7 @@ process::process()
 
 bool process::parse_event(const std::shared_ptr<ez_etw::event>& evt, std::deque<std::shared_ptr<ez_etw::parsed_event>>& events) const {
 	auto version = evt->get_version();
-	std::shared_ptr<ez_etw::parsed_events::parse_event_process> parsed;	
+	std::shared_ptr<ez_etw::parsed_events::parsed_event_process> parsed;	
 	bool is_supported = true;
 	switch(version) {
 		case version::v4: {
