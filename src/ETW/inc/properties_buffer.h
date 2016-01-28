@@ -20,6 +20,7 @@ namespace ez_etw {
         ~properties_buffer() = default;
         buffer_type* const get_buffer();
         EVENT_TRACE_PROPERTIES* const get_struct();
+		void zero();
     private:
         union {
             buffer_type m_buff;

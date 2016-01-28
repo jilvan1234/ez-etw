@@ -43,3 +43,7 @@ void event_parser::set_pointer_size(shared_ptr<unsigned long> pointer_size) {
 unsigned long event_parser::get_pointer_size() const {
 	return *m_pointer_size;
 }
+
+const std::deque<std::shared_ptr<parsed_event>>& event_parser::get_events() const {
+	return m_events;
+}

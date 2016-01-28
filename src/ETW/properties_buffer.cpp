@@ -8,9 +8,7 @@ using ez_etw::properties_buffer;
 using std::memset;
 
 properties_buffer::properties_buffer(const kernel_flags& flags) {
-    const size_t buff_size = sizeof(m_u);
-    memset(&m_u, 0, buff_size);
-    m_u.m_struct.Wnode.BufferSize = buff_size;
+    zero();
     m_u.m_struct.LoggerNameOffset = sizeof(m_u.m_struct);
     m_u.m_struct.LogFileNameOffset = sizeof(m_u.m_struct) + max_name_length;
     if(flags != 0) {
@@ -25,4 +23,10 @@ properties_buffer::buffer_type* const properties_buffer::get_buffer() {
 
 EVENT_TRACE_PROPERTIES* const properties_buffer::get_struct() {
     return &m_u.m_struct;
+}
+
+void properties_buffer::zero() {
+	const size_t buff_size = sizeof(m_u);
+	memset(&m_u, 0, buff_size);
+	m_u.m_struct.Wnode.BufferSize = buff_size;
 }

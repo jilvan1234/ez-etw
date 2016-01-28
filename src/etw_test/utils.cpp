@@ -33,7 +33,6 @@ namespace test_utils {
 			bool success = TerminateProcess(
 				reinterpret_cast<HANDLE>(process_handle), 
 				std::numeric_limits<UINT>::max()) != 0;
-			std::cout << "last error: " << GetLastError() << std::endl;
 			return success;
 		}
 	}

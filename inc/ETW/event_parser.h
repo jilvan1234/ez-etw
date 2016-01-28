@@ -12,6 +12,7 @@ namespace ez_etw {
 		virtual ~event_parser() = default;
 		bool parse(std::shared_ptr<event> evt);
 		const parsed_event* const get_event() const;
+		const std::deque<std::shared_ptr<parsed_event>>& get_events() const;
 		void remove_event();
 		bool events_empty() const;
 		GUID get_event_type() const;

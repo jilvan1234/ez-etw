@@ -1,6 +1,11 @@
 #include <etw/controller.h>
 #include "inc/controller_ctx.h"
 
+#include <windef.h>
+#include <winbase.h>
+#include <wmistr.h>
+#include <evntrace.h>
+
 using std::make_unique;
 using std::wstring;
 using ez_etw::controller;
