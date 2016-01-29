@@ -1,0 +1,2 @@
+language: csharp
+solution: msvc/solutions/ez_etw.sln
