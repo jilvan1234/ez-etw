@@ -29,8 +29,7 @@ GUID event_parser::get_event_type() const {
 
 bool event_parser::parse(std::shared_ptr<event> evt) {
 	bool parsed = false;
-	if(evt->get_guid() == m_event_guid)
-	{
+	if(evt->get_guid() == m_event_guid) {
 		parsed = parse_event(evt, m_events);
 	}
 	return parsed;
@@ -44,6 +43,12 @@ unsigned long event_parser::get_pointer_size() const {
 	return *m_pointer_size;
 }
 
-const std::deque<std::shared_ptr<parsed_event>>& event_parser::get_events() const {
-	return m_events;
+const std::deque<std::shared_ptr<parsed_event>> event_parser::get_events() {
+	const size_t events_count = m_events.size();
+	std::deque<std::shared_ptr<parsed_event>> events;
+	for(size_t i = 0; i < events_count; ++i) {
+		events.emplace_back(std::move(m_events.front()));
+		m_events.pop_front();
+	}
+	return events;
 }

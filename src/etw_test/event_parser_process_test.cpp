@@ -4,6 +4,7 @@
 #include <etw/controller.h>
 #include <etw_test/utils.h>
 #include <etw/parsed_event_process.h>
+#include <string>
 
 using ez_etw::session;
 using ez_etw::controller;
@@ -11,8 +12,7 @@ using ez_etw::properties;
 using std::begin;
 using std::end;
 using std::count_if;
-
-#include <iostream>
+using std::string;
 
 TEST_CASE("parse process events", "[event_parsers_process]") {
 	GIVEN("a process parser added to a running session") {
@@ -24,21 +24,34 @@ TEST_CASE("parse process events", "[event_parsers_process]") {
 		REQUIRE(session_ctx.parsers_add(parser));
 		REQUIRE(session_ctx.start());
 		WHEN("a process is launched") {
+			static const size_t iteration_count_max = 60;
+			static const std::string process_name("cmd.exe");
+			static const std::string process_path("c:\\windows\\system32\\" + process_name);
 			uintptr_t process_handle;
-			// count the occurences of calc
-			auto events = parser->get_events();
-			std::cout << "Event counts: " << events.size() << std::endl;
-			size_t process_count = count_if(
-				begin(parser->get_events()), 
-				end(parser->get_events()), 
-				[&process_count](decltype(events)::const_reference evt) {
-					auto ptr_evt = evt.get();
-					auto ptr_process_evt = static_cast<ez_etw::parsed_events::parsed_event_process*>(ptr_evt);
-					std::cout << ptr_process_evt->get_image_filename() << std::endl;
-					return ptr_process_evt->get_image_filename() == "calc.exe";
-			});
-
-			REQUIRE(test_utils::process::launch("c:\\windows\\system32\\calc.exe", process_handle));
+			uintptr_t process_id;
+			REQUIRE(test_utils::process::launch(process_path, process_handle, process_id));
+			bool target_found = false;
+			size_t iteration_count = 0;
+			do {
+				using namespace std::literals;
+				auto events = parser->get_events();
+				target_found = std::find_if(
+					begin(events), 
+					end(events), 
+					[process_id](decltype(events)::const_reference evt) {
+						auto ptr_evt = evt.get();
+						auto ptr_process_evt = static_cast<ez_etw::parsed_events::parsed_event_process*>(ptr_evt);
+						return ptr_process_evt->get_image_filename() == process_name &&
+							ptr_process_evt->get_pid() == process_id;
+				}) != end(events);
+				if(!target_found) {
+					std::this_thread::sleep_for(1s);
+					++iteration_count;
+					if(iteration_count == iteration_count_max) {
+						FAIL("Maximum iteration count");
+					}
+				}
+			} while(!target_found);
 			REQUIRE(test_utils::process::terminate(process_handle));
 		}
 		REQUIRE(session_ctx.stop());

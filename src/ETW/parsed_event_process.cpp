@@ -33,3 +33,7 @@ bool parsed_event_process::set_sid(const char* sid_start, uintptr_t pointer_size
 const std::string& parsed_event_process::get_image_filename() const {
 	return m_image_filename;
 }
+
+unsigned int parsed_event_process::get_pid() const {
+	return m_pid;
+}

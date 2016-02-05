@@ -5,7 +5,7 @@
 
 namespace test_utils {
 	namespace process {
-		bool launch(const std::string& filename, uintptr_t& process_handle);
+		bool launch(const std::string& filename, uintptr_t& process_handle, uintptr_t& process_id);
 		bool terminate(const uintptr_t& process_handle);
 	}
 }

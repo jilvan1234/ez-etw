@@ -9,6 +9,7 @@ namespace ez_etw {
 			parsed_event_process(const event& evt, unsigned long pointer_size);
             virtual ~parsed_event_process() = default;
 			const std::string& get_image_filename() const;
+			unsigned int get_pid() const;
 		protected:
 			bool set_sid(const char* sid_start, uintptr_t pointer_size, size_t& user_sid_length);
 			unsigned int m_pid;

@@ -92,9 +92,9 @@ v4::v4(const event& evt, unsigned long pointer_size)
 		{
 			m_status = success;
 		}
-		std::cout << static_cast<signed int>(m_session_id) << "|" << m_pid << "(" << m_parent_pid << ") " << " " << m_image_filename <<  std::endl;
-		std::wcout << "\t" << m_command_line << std::endl;
-		std::cout << "\t" << m_user_sid << std::endl;
+		//std::cout << static_cast<signed int>(m_session_id) << "|" << m_pid << "(" << m_parent_pid << ") " << " " << m_image_filename <<  std::endl;
+		//std::wcout << "\t" << m_command_line << std::endl;
+		//std::cout << "\t" << m_user_sid << std::endl;
 	} else {
 		m_status = unsupported_type;
 	}
