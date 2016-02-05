@@ -1,5 +1,5 @@
-#ifndef EZETW_PRIVATE_CONTROLLER_CTX_H
-#define EZETW_PRIVATE_CONTROLLER_CTX_H
+#ifndef EZETW_CONTROLLER_H
+#define EZETW_CONTROLLER_H
 
 #include <string>
 #include <etw/properties.h>
