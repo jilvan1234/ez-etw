@@ -30,9 +30,6 @@
     <ClCompile Include="..\..\..\src\etw_test\event_parser_process_test.cpp">
       <Filter>Source Files\tests\event_parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\etw_test\controller_ctx_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\etw_test\controller_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>

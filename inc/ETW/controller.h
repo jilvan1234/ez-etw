@@ -1,25 +1,23 @@
-#ifndef EZETW_CONTROLLER_H
-#define EZETW_CONTROLLER_H
+#ifndef EZETW_PRIVATE_CONTROLLER_CTX_H
+#define EZETW_PRIVATE_CONTROLLER_CTX_H
 
-#include <memory>
 #include <string>
-#include <etw/status.h>
 #include <etw/properties.h>
+#include <etw/status.h>
 
 namespace ez_etw {
-    struct controller_ctx;
-
     struct controller {
-        static const std::wstring& kernel_name;
+        static const std::wstring kernel_name;
         controller(const std::wstring& name);
-        ~controller();
-        status start(const properties& props);
-        status stop();
-        bool is_kernel_logger() const;
+        ez_etw::status start(const properties& props);
+        ez_etw::status stop();
         bool is_running() const;
+        bool is_kernel_logger() const;
+		ez_etw::status system_stop(const std::wstring& name);
     private:
-        using ptr_type = std::unique_ptr<controller_ctx>;
-        ptr_type m_ctx;
+        const std::wstring& m_name;
+        const bool m_is_kernel_logger;
+        bool m_is_running;
     };
 }
 

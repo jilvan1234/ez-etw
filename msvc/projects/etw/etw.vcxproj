@@ -126,7 +126,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\etw\controller.cpp" />
-    <ClCompile Include="..\..\..\src\etw\controller_ctx.cpp" />
     <ClCompile Include="..\..\..\src\ETW\event.cpp" />
     <ClCompile Include="..\..\..\src\ETW\event_parser.cpp" />
     <ClCompile Include="..\..\..\src\etw\event_parser_process.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="..\..\..\inc\etw\properties.h" />
     <ClInclude Include="..\..\..\inc\etw\session.h" />
     <ClInclude Include="..\..\..\inc\etw\status.h" />
-    <ClInclude Include="..\..\..\src\etw\inc\controller_ctx.h" />
     <ClInclude Include="..\..\..\src\etw\inc\properties_buffer.h" />
     <ClInclude Include="..\..\..\src\etw\inc\session_global.h" />
     <ClInclude Include="..\..\..\src\etw\inc\session_trace.h" />
