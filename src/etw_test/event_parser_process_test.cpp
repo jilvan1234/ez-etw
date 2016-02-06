@@ -16,6 +16,7 @@ using std::string;
 
 TEST_CASE("parse process events", "[event_parsers_process]") {
 	GIVEN("a process parser added to a running session") {
+        bool target_found = false;
 		controller ctrl(controller::kernel_name);
 		ctrl.stop();
 		REQUIRE(ctrl.start(properties(ez_etw::log_mode::real_time, ez_etw::kernel_flags::process)) == ez_etw::status::success);
@@ -30,7 +31,6 @@ TEST_CASE("parse process events", "[event_parsers_process]") {
 			uintptr_t process_handle;
 			uintptr_t process_id;
 			REQUIRE(test_utils::process::launch(process_path, process_handle, process_id));
-			bool target_found = false;
 			size_t iteration_count = 0;
 			do {
 				using namespace std::literals;
@@ -47,14 +47,12 @@ TEST_CASE("parse process events", "[event_parsers_process]") {
 				if(!target_found) {
 					std::this_thread::sleep_for(1s);
 					++iteration_count;
-					if(iteration_count == iteration_count_max) {
-						FAIL("Maximum iteration count");
-					}
 				}
-			} while(!target_found);
+			} while(!target_found && iteration_count < iteration_count_max);
 			REQUIRE(test_utils::process::terminate(process_handle));
 		}
 		REQUIRE(session_ctx.stop());
 		REQUIRE(ez_etw::status::success == ctrl.stop());
+        REQUIRE(target_found);
 	}
 }

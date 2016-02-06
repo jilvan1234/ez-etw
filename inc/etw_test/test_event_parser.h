@@ -2,6 +2,7 @@
 #define EZETW_TESTEVENTPARSER_H
 
 #include <etw/event_parser.h>
+#include <utility>
 
 static const GUID test_guid0 = { 0x1, 0x2, 0x3, 0x4 };
 static const GUID test_guid1 = { 0x5, 0x6, 0x7, 0x8 };
@@ -21,9 +22,8 @@ struct test_event_parser : public ez_etw::event_parser {
 	}
 	virtual ~test_event_parser() = default;
 private:
-	virtual bool parse_event(const std::shared_ptr<ez_etw::event>& evt, std::deque<std::shared_ptr<ez_etw::parsed_event>>& events) const {
-		events.emplace_back(std::make_shared<test_event>(evt->get_guid()));
-		return true;
+	virtual std::pair<bool, std::shared_ptr<ez_etw::parsed_event>> parse_event(const std::shared_ptr<ez_etw::event>& evt) const {
+		return std::make_pair(true, std::make_shared<test_event>(evt->get_guid()));
 	}
 };
 

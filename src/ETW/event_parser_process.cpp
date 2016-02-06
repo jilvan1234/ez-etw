@@ -15,11 +15,12 @@ using std::make_shared;
 //    );
 
 const GUID process::guid = {0x3d6fa8d0, 0xfe05, 0x11d0, {0x9d, 0xda, 0x00, 0xc0, 0x4f, 0xd7, 0xba, 0x7c}};
+
 process::process()
 :event_parser(guid) {
 }
 
-bool process::parse_event(const std::shared_ptr<ez_etw::event>& evt, std::deque<std::shared_ptr<ez_etw::parsed_event>>& events) const {
+std::pair<bool, std::shared_ptr<ez_etw::parsed_event>> process::parse_event(const std::shared_ptr<ez_etw::event>& evt) const {
 	auto version = evt->get_version();
 	std::shared_ptr<ez_etw::parsed_events::parsed_event_process> parsed;	
 	bool is_supported = true;
@@ -31,10 +32,8 @@ bool process::parse_event(const std::shared_ptr<ez_etw::event>& evt, std::deque<
 		default:
 			is_supported = false;
 	}
-	bool is_parsed = is_supported && parsed->get_status() == parsed_event::status::success;
-	if(is_parsed) {
-		events.push_back(parsed);
-	}
-	return is_parsed;
+    const bool is_parsed = is_supported && parsed->get_status() == parsed_event::status::success;
+    auto pair = std::make_pair(is_parsed, parsed);
+	return pair;
 }
 

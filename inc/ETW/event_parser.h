@@ -19,7 +19,7 @@ namespace ez_etw {
 		void set_pointer_size(std::shared_ptr<unsigned long> pointer_size);
 		unsigned long get_pointer_size() const;
 	private:
-		virtual bool parse_event(const std::shared_ptr<event>& evt, std::deque<std::shared_ptr<parsed_event>>& events) const = 0;
+		virtual std::pair<bool, std::shared_ptr<ez_etw::parsed_event>> parse_event(const std::shared_ptr<event>& evt) const = 0;
 		const GUID& m_event_guid;
 		std::deque<std::shared_ptr<parsed_event>> m_events;
 		std::shared_ptr<unsigned long> m_pointer_size;

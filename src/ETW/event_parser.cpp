@@ -30,7 +30,11 @@ GUID event_parser::get_event_type() const {
 bool event_parser::parse(std::shared_ptr<event> evt) {
 	bool parsed = false;
 	if(evt->get_guid() == m_event_guid) {
-		parsed = parse_event(evt, m_events);
+        auto pair = parse_event(evt);
+        parsed = pair.first;
+        if(parsed) {
+            m_events.push_back(pair.second);
+        }
 	}
 	return parsed;
 }
