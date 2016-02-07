@@ -15,9 +15,11 @@ namespace ez_etw {
 		virtual ~parsed_event() = default;
         time_t get_timestamp() const;
 		status get_status() const;
+        event::type get_type() const;
 	protected:
 		status m_status = incomplete;
 		unsigned long m_pointer_size;
+        event::type m_type;
     private:
         time_t m_timestamp;
 	};
