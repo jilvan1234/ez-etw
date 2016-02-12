@@ -129,10 +129,12 @@
     <ClCompile Include="..\..\..\src\ETW\event.cpp" />
     <ClCompile Include="..\..\..\src\ETW\event_parser.cpp" />
     <ClCompile Include="..\..\..\src\etw\event_parser_process.cpp" />
-    <ClCompile Include="..\..\..\src\etw\event_parses_image.cpp" />
+    <ClCompile Include="..\..\..\src\etw\event_parser_image.cpp" />
     <ClCompile Include="..\..\..\src\etw\guid_comparator.cpp" />
+    <ClCompile Include="..\..\..\src\etw\image.cpp" />
+    <ClCompile Include="..\..\..\src\etw\image_v3.cpp" />
     <ClCompile Include="..\..\..\src\etw\parsed_event.cpp" />
-    <ClCompile Include="..\..\..\src\etw\parsed_event_process.cpp" />
+    <ClCompile Include="..\..\..\src\etw\process.cpp" />
     <ClCompile Include="..\..\..\src\etw\process_v4.cpp" />
     <ClCompile Include="..\..\..\src\etw\properties.cpp" />
     <ClCompile Include="..\..\..\src\etw\properties_buffer.cpp" />
@@ -148,7 +150,9 @@
     <ClInclude Include="..\..\..\inc\etw\event_parsers_image.h" />
     <ClInclude Include="..\..\..\inc\etw\event_parsers_process.h" />
     <ClInclude Include="..\..\..\inc\etw\guid_comparator.h" />
-    <ClInclude Include="..\..\..\inc\etw\parsed_event_process.h" />
+    <ClInclude Include="..\..\..\inc\etw\image.h" />
+    <ClInclude Include="..\..\..\inc\etw\image_v3.h" />
+    <ClInclude Include="..\..\..\inc\etw\process.h" />
     <ClInclude Include="..\..\..\inc\ETW\parsed_event.h" />
     <ClInclude Include="..\..\..\inc\etw\process_v4.h" />
     <ClInclude Include="..\..\..\inc\etw\properties.h" />

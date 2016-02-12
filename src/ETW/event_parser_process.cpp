@@ -1,9 +1,9 @@
 #include <etw/event_parsers_process.h>
-#include <etw/parsed_event_process.h>
+#include <etw/process.h>
 #include <etw/process_v4.h>
 
 using ez_etw::event_parsers::process;
-using event_process = ez_etw::parsed_events::parsed_event_process;
+using event_process = ez_etw::parsed_events::process;
 using std::make_shared;
 
 //DEFINE_GUID( /* 3d6fa8d0-fe05-11d0-9dda-00c04fd7ba7c */
@@ -22,11 +22,11 @@ process::process()
 
 std::pair<bool, std::shared_ptr<ez_etw::parsed_event>> process::parse_event(const std::shared_ptr<ez_etw::event>& evt) const {
 	auto version = evt->get_version();
-	std::shared_ptr<ez_etw::parsed_events::parsed_event_process> parsed;	
+	std::shared_ptr<ez_etw::parsed_events::process> parsed;
 	bool is_supported = true;
 	switch(version) {
 		case version::v4: {
-			parsed = make_shared<ez_etw::parsed_events::process::v4>(*evt, get_pointer_size());
+			parsed = make_shared<ez_etw::parsed_events::processes::v4>(*evt, get_pointer_size());
 			break;
 		}
 		default:

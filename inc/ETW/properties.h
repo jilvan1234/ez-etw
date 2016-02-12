@@ -16,7 +16,8 @@ namespace ez_etw {
     };
     enum kernel_flags : unsigned long {
         none = 0,
-        process = 0x00000001
+        process = 0x00000001,
+        image = 0x00000004
     };
 
     struct properties {

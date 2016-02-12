@@ -2,7 +2,6 @@
 #define EZETW_EVENTPARSER_PROCESS_H
 
 #include <etw/event_parser.h>
-#include <etw/parsed_event_process.h>
 
 namespace ez_etw {
     namespace event_parsers {

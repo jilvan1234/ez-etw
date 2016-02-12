@@ -20,6 +20,7 @@ namespace ez_etw {
 		status m_status = incomplete;
 		unsigned long m_pointer_size;
         event::type m_type;
+        bool set(std::stringstream& ss, const std::string& buffer, std::wstring& str);
     private:
         time_t m_timestamp;
 	};

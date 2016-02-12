@@ -5,9 +5,9 @@
 
 namespace ez_etw {
     namespace parsed_events {
-        struct parsed_event_process : public ez_etw::parsed_event {
-			parsed_event_process(const event& evt, unsigned long pointer_size);
-            virtual ~parsed_event_process() = default;
+        struct process : public ez_etw::parsed_event {
+			process(const event& evt, unsigned long pointer_size);
+            virtual ~process() = default;
 			const std::string& get_image_filename() const;
 			unsigned int get_pid() const;
 		protected:

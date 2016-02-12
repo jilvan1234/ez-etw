@@ -3,7 +3,7 @@
 #include <etw/session.h>
 #include <etw/controller.h>
 #include <etw_test/utils.h>
-#include <etw/parsed_event_process.h>
+#include <etw/process.h>
 #include <string>
 #include <utility>
 
@@ -31,7 +31,7 @@ static std::pair<bool, event::type> find_target(std::shared_ptr<ez_etw::event_pa
             end(events), 
             [process_id, process_name, &type](decltype(events)::const_reference evt) {
             auto ptr_evt = evt.get();
-            auto ptr_process_evt = static_cast<ez_etw::parsed_events::parsed_event_process*>(ptr_evt);
+            auto ptr_process_evt = static_cast<ez_etw::parsed_events::process*>(ptr_evt);
             type = ptr_evt->get_type();
             return ptr_process_evt->get_image_filename() == process_name &&
                 ptr_process_evt->get_pid() == process_id;
@@ -56,7 +56,7 @@ TEST_CASE("parse process events", "[event_parsers_process]") {
 		auto parser = std::make_shared<ez_etw::event_parsers::process>();
 		REQUIRE(session_ctx.parsers_add(parser));
 		REQUIRE(session_ctx.start());
-		WHEN("a process is launched") {
+		WHEN("a process is launched and closed") {
 			static const std::string process_name("cmd.exe");
 			static const std::string process_path("c:\\windows\\system32\\" + process_name);
 			uintptr_t process_handle;
@@ -66,8 +66,8 @@ TEST_CASE("parse process events", "[event_parsers_process]") {
 			REQUIRE(test_utils::process::terminate(process_handle));
             target_found_end = find_target(parser, process_id, process_name);
 		}
-		REQUIRE(session_ctx.stop());
-		REQUIRE(ez_etw::status::success == ctrl.stop());
+        REQUIRE(ez_etw::status::success == ctrl.stop());
+        REQUIRE(session_ctx.stop());
         REQUIRE(target_found_start.first);
         REQUIRE(target_found_start.second == event::type::start);
         REQUIRE(target_found_end.first);

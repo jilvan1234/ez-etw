@@ -9,11 +9,12 @@ namespace ez_etw {
 	struct event {
 		enum type {
 			info,
-			start,
-			end,
-			data_collection_start,
+            data_collection_start,
             data_collection_end,
-			defunct
+            defunct,
+            start,
+			end,
+            load
 		};
         event(const GUID& guid, const unsigned long long& timestamp, const char* buffer, size_t buffer_size);
 		virtual ~event() = default;

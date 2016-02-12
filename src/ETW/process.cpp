@@ -1,18 +1,18 @@
-#include <etw/parsed_event_process.h>
+#include <etw/process.h>
 #include <Windows.h>
 #include <Sddl.h>
 #include <algorithm>
 #include <iterator>
 
-using ez_etw::parsed_events::parsed_event_process;
+using ez_etw::parsed_events::process;
 using std::copy;
 using std::back_inserter;
 
-parsed_event_process::parsed_event_process(const ez_etw::event& evt, unsigned long pointer_size)
+process::process(const ez_etw::event& evt, unsigned long pointer_size)
 :parsed_event(evt, pointer_size) {
 }
 
-bool parsed_event_process::set_sid(const char* sid_start, uintptr_t pointer_size, size_t& user_sid_length) {
+bool process::set_sid(const char* sid_start, uintptr_t pointer_size, size_t& user_sid_length) {
 	bool is_set = false;
 	if(nullptr != sid_start) {
 		size_t delta = sizeof(ULONG) + 2 * pointer_size;
@@ -30,10 +30,10 @@ bool parsed_event_process::set_sid(const char* sid_start, uintptr_t pointer_size
 	return is_set;
 }
 
-const std::string& parsed_event_process::get_image_filename() const {
+const std::string& process::get_image_filename() const {
 	return m_image_filename;
 }
 
-unsigned int parsed_event_process::get_pid() const {
+unsigned int process::get_pid() const {
 	return m_pid;
 }

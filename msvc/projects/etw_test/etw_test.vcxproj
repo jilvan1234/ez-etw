@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\etw_test\controller_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\etw_test.cpp" />
+    <ClCompile Include="..\..\..\src\etw_test\event_parser_image_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\event_parser_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\event_parser_process_test.cpp" />
     <ClCompile Include="..\..\..\src\etw_test\event_test.cpp" />

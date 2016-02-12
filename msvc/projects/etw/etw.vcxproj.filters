@@ -37,6 +37,12 @@
     <Filter Include="Source Files\parsed_events\process">
       <UniqueIdentifier>{6062960b-31f2-46ab-9928-aec1772be09b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\parsed_events\image">
+      <UniqueIdentifier>{3156552b-2e76-4faf-8577-f9a2273b4545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Public\parsed_events\image">
+      <UniqueIdentifier>{ad6509c0-de53-4a5f-8510-5523d6e425d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ETW\properties.cpp">
@@ -78,14 +84,20 @@
     <ClCompile Include="..\..\..\src\etw\controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\etw\parsed_event_process.cpp">
-      <Filter>Source Files\parsed_events\process</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\etw\process_v4.cpp">
       <Filter>Source Files\parsed_events\process</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\etw\event_parses_image.cpp">
+    <ClCompile Include="..\..\..\src\etw\process.cpp">
+      <Filter>Source Files\parsed_events\process</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\image.cpp">
+      <Filter>Source Files\parsed_events\image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\event_parser_image.cpp">
       <Filter>Source Files\event_parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\etw\image_v3.cpp">
+      <Filter>Source Files\parsed_events\image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +131,6 @@
     <ClInclude Include="..\..\..\inc\ETW\event_parser.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\inc\etw\parsed_event_process.h">
-      <Filter>Header Files\Public\parsed_events\process</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\inc\etw\process_v4.h">
       <Filter>Header Files\Public\parsed_events\process</Filter>
     </ClInclude>
@@ -133,6 +142,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\inc\etw\event_parsers_image.h">
       <Filter>Header Files\Public\event_parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\image.h">
+      <Filter>Header Files\Public\parsed_events\image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\process.h">
+      <Filter>Header Files\Public\parsed_events\process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\inc\etw\image_v3.h">
+      <Filter>Header Files\Public\parsed_events\image</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

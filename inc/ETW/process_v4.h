@@ -1,13 +1,13 @@
-#ifndef EZETW_PARSEDEVENTS_PROCESS_VISTA_H
-#define EZETW_PARSEDEVENTS_PROCESS_VISTA_H
+#ifndef EZETW_PARSEDEVENTS_PROCESSES_V4_H
+#define EZETW_PARSEDEVENTS_PROCESSES_V4_H
 
-#include <etw/parsed_event_process.h>
+#include <etw/process.h>
 #include <sstream>
 
 namespace ez_etw {
     namespace parsed_events {
-        namespace process {
-            struct v4 : ez_etw::parsed_events::parsed_event_process {
+        namespace processes {
+            struct v4 : ez_etw::parsed_events::process {
 				v4(const event& evt, unsigned long pointer_size);
                 virtual ~v4() = default;
 			private:

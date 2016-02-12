@@ -31,6 +31,9 @@ bool event::set_type(unsigned int type) {
 		case EVENT_TRACE_TYPE_DC_END:
 			m_type = type::data_collection_end;
 			break;
+        case EVENT_TRACE_TYPE_LOAD:
+            m_type = type::load;
+            break;
 		case 39: // defunct
 			m_type = type::defunct;
 			break;
