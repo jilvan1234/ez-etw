@@ -8,7 +8,12 @@
 using ez_etw::session;
 using ez_etw::controller;
 using ez_etw::properties;
+using ez_etw::event;
+using ez_etw::parsed_event;
 using namespace std::literals;
+using std::begin;
+using std::end;
+using std::wstring;
 
 TEST_CASE("parse image events", "[event_parsers_image]") {
     GIVEN("an image parser added to a running session") {
@@ -19,18 +24,24 @@ TEST_CASE("parse image events", "[event_parsers_image]") {
         auto parser = std::make_shared<ez_etw::event_parsers::image>();
         REQUIRE(session_ctx.parsers_add(parser));
         REQUIRE(session_ctx.start());
+        static const wstring dll(L"hal.dll");
+        //bool found_ntdll = false;
+        size_t count_dll_hal = 0;
         WHEN("a process is launched and closed") {
-            static const std::string process_name("cmd.exe");
-            static const std::string process_path("c:\\windows\\system32\\" + process_name);
-            uintptr_t process_handle;
-            uintptr_t process_id;
-            REQUIRE(test_utils::process::launch(process_path, process_handle, process_id));
-            
             std::this_thread::sleep_for(10s);
-            REQUIRE(test_utils::process::terminate(process_handle));
+            auto events = parser->get_events();
+            count_dll_hal = std::count_if(begin(events), end(events), [](decltype(events)::const_reference evt) {
+                auto ptr_evt = evt.get();
+                auto ptr_image_evt = static_cast<ez_etw::parsed_events::image*>(ptr_evt);
+                auto filename = ptr_image_evt->get_image_filename();
+                const wchar_t* pp = filename.c_str();
+                ptrdiff_t t = filename.length() - dll.length();
+                wchar_t* p = &filename[t];
+                return std::wmemcmp(p, dll.c_str(), dll.length()) == 0;
+            });
         }
         REQUIRE(ez_etw::status::success == ctrl.stop());
         REQUIRE(session_ctx.stop());
-
+        REQUIRE(count_dll_hal == 1);
     }
 }
