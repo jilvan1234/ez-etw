@@ -25,12 +25,14 @@ event::type parsed_event::get_type() const {
 
 bool parsed_event::set(std::stringstream& ss, const std::string& buffer, std::wstring& str) {
     const streampos current_stream_pos = ss.tellg();
-    const char* cmd_line_start = buffer.data() + current_stream_pos;
-    const size_t cmd_line_len = wcslen(reinterpret_cast<const wchar_t*>(cmd_line_start));
+    const wchar_t* line_start = reinterpret_cast<const wchar_t*>(buffer.data() + current_stream_pos);
+    const size_t line_len = wcslen(reinterpret_cast<const wchar_t*>(line_start));
     bool is_set = false;
-    if(cmd_line_len > 0) {
-        const size_t bytes_count = cmd_line_len * sizeof(wchar_t);
-        copy(cmd_line_start, cmd_line_start + bytes_count, back_inserter(str));
+    if(line_len > 0) {
+        const wchar_t* line_end = line_start + line_len;
+        copy(line_start, line_end, back_inserter(str));
+        const wchar_t* c = str.c_str();
+        const size_t bytes_count = line_len * sizeof(wchar_t);
         ss.seekg(bytes_count, std::ios::cur);
         is_set = ss.good();
     }
