@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <ExtDir>$(SolutionDir)..\..\..\ext\</ExtDir>
-    <IncDir>$(SolutionDir)..\..\..\inc\</IncDir>
-    <BinDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</BinDir>
+    <ExtDir>$(ProjectDir)..\..\..\ext\</ExtDir>
+    <IncDir>$(ProjectDir)..\..\..\inc\</IncDir>
+    <BinDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\</BinDir>
     <DDKIncDir>C:\WinDDK\7600.16385.1\inc\api\;C:\WinDDK\7600.16385.1\inc\ddk\</DDKIncDir>
     <DDKLibDir>C:\WinDDK\7600.16385.1\lib\wxp\i386\</DDKLibDir>
   </PropertyGroup>
   <PropertyGroup>
-    <OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\pdb\$(ProjectName)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\..\bin\$(Platform)\$(Configuration)\pdb\$(ProjectName)\</IntDir>
     <IncludePath>$(ExtDir);$(IncDir);$(IncludePath)</IncludePath>
     <SourcePath>$(IncludePath);$(SourcePath)</SourcePath>
     <LibraryPath>$(BinDir);$(LibraryPath)</LibraryPath>

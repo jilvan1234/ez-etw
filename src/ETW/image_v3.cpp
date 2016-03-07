@@ -26,6 +26,8 @@ class Image_Load : Image
 };
 */
 
+//#include <iostream>
+
 v3::v3(const event& evt, unsigned long pointer_size)
 :image(evt, pointer_size) {
     if(evt.get_type() == event::type::load ||
@@ -48,6 +50,8 @@ v3::v3(const event& evt, unsigned long pointer_size)
             ss.read(reinterpret_cast<char*>(&m_reserved3), sizeof(m_reserved3)).good() &&
             ss.read(reinterpret_cast<char*>(&m_reserved4), sizeof(m_reserved4)).good() &&
             set_image_filename(ss, buffer_str)) {
+            //std::cout << m_process_id << " ";
+			//std::wcout << m_image_filename << std::endl;
             m_status = success;
         }
     } else {

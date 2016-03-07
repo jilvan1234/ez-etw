@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25029.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "etw", "..\..\projects\etw\etw.vcxproj", "{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}"
 EndProject
@@ -9,24 +9,30 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "etw_test", "..\..\projects\
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Debug|Win32.ActiveCfg = Debug|Win32
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Debug|Win32.Build.0 = Debug|Win32
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Debug|x64.ActiveCfg = Debug|x64
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Debug|x64.Build.0 = Debug|x64
+		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Release|Any CPU.ActiveCfg = Release|Win32
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Release|Win32.ActiveCfg = Release|Win32
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Release|Win32.Build.0 = Release|Win32
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Release|x64.ActiveCfg = Release|x64
 		{72C51E7B-185A-4E50-BC20-730CCE1FEFE7}.Release|x64.Build.0 = Release|x64
+		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Debug|Win32.Build.0 = Debug|Win32
 		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Debug|x64.ActiveCfg = Debug|x64
 		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Debug|x64.Build.0 = Debug|x64
+		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Release|Any CPU.ActiveCfg = Release|Win32
 		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Release|Win32.ActiveCfg = Release|Win32
 		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Release|Win32.Build.0 = Release|Win32
 		{3E6EE421-E4BF-459F-87AC-C9E75FFCC452}.Release|x64.ActiveCfg = Release|x64
