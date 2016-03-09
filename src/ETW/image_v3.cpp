@@ -34,7 +34,6 @@ v3::v3(const event& evt, unsigned long pointer_size)
         evt.get_type() == event::type::data_collection_end) {
         string& buffer_str = *evt.get_buffer();
         stringstream ss(buffer_str);
-        const char* ptr = buffer_str.data();
         if(ss.read(reinterpret_cast<char*>(&m_base_address), sizeof(m_base_address)).good() &&
             ss.read(reinterpret_cast<char*>(&m_module_size), sizeof(m_module_size)).good() &&
             ss.read(reinterpret_cast<char*>(&m_process_id), sizeof(m_process_id)).good() &&
