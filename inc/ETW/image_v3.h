@@ -1,5 +1,5 @@
-#ifndef EZETW_PARSEDEVENTS_IMAGES_V2_H
-#define EZETW_PARSEDEVENTS_IMAGES_V2_H
+#ifndef EZETW_PARSEDEVENTS_IMAGES_V3_H
+#define EZETW_PARSEDEVENTS_IMAGES_V3_H
 
 #include <etw/image.h>
 
@@ -12,15 +12,15 @@ namespace ez_etw {
             private:
                 uint32_t m_process_id;
                 uint32_t m_checksum;
-                unsigned int m_timestamp;
-                unsigned char m_sig_level;
-                unsigned char m_sig_type;
-                unsigned short m_reserved0;
-                uintptr_t m_default_base;
-                unsigned int m_reserved1;
-                unsigned int m_reserved2;
-                unsigned int m_reserved3;
-                unsigned int m_reserved4;
+                uint32_t m_timestamp_image;
+                uint8_t m_sig_level;
+                uint8_t m_sig_type;
+                uint16_t m_reserved0;
+                uint64_t m_default_base;
+                uint32_t m_reserved1;
+                uint32_t m_reserved2;
+                uint32_t m_reserved3;
+                uint32_t m_reserved4;
             };
         }
     }

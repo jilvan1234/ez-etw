@@ -54,7 +54,8 @@ static unsigned long __stdcall cb_buffer(EVENT_TRACE_LOGFILEW* const ptr_event_t
 }
 
 void trace_thread(uintptr_t trace_handle) {
-    ULONG err = ProcessTrace(&trace_handle, 1, 0, 0);
+    TRACEHANDLE h = static_cast<TRACEHANDLE>(trace_handle);
+    ULONG err = ProcessTrace(&h, 1, 0, 0);
     CloseTrace(trace_handle);
 }
 
@@ -101,7 +102,7 @@ bool session::is_running() {
 bool session::start() {
     lock_type lock(m_mutex_is_running);
     if (!g_trace_is_running) {
-		uintptr_t trace_handle = OpenTraceW(m_trace->get_trace_logfile());
+		uintptr_t trace_handle = static_cast<uintptr_t>(OpenTraceW(m_trace->get_trace_logfile()));
 		if(GetLastError() == ERROR_SUCCESS) {
 			m_trace_handle = trace_handle;
 			*m_pointer_size = m_trace->get_trace_logfile()->LogfileHeader.PointerSize;

@@ -8,7 +8,7 @@ image::image(const event& evt, unsigned long pointer_size)
 :parsed_event(evt, pointer_size) {
 }
 
-uintptr_t image::get_base_address() const {
+uint64_t image::get_base_address() const {
     return m_base_address;
 }
 
@@ -16,7 +16,7 @@ const std::wstring& image::get_image_filename() const {
     return m_image_filename;
 }
 
-uintptr_t image::get_module_size() const {
+uint64_t image::get_module_size() const {
     return m_module_size;
 }
 

@@ -25,7 +25,7 @@ namespace ez_etw {
         trace_type m_trace;
         std::unique_ptr<std::thread> m_trace_thread;
 		std::shared_ptr<unsigned long> m_pointer_size;
-		uint64_t m_trace_handle;
+		uintptr_t m_trace_handle;
 		std::mutex m_mutex_is_running;
 		std::map<GUID, std::shared_ptr<event_parser>, guid_comparator> m_parsers;
 	};

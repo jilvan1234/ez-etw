@@ -8,13 +8,13 @@ namespace ez_etw {
         struct image : public ez_etw::parsed_event {
             image(const event& evt, unsigned long pointer_size);
             virtual ~image() = default;
-			uintptr_t get_base_address() const;
-			uintptr_t get_module_size() const;
+			uint64_t get_base_address() const;
+			uint64_t get_module_size() const;
 			const std::wstring& get_image_filename() const;
         protected:
             bool set_image_filename(std::stringstream& ss, const std::string& buffer_str);
-			uintptr_t m_base_address;
-			uintptr_t m_module_size;
+			uint64_t m_base_address;
+            uint64_t m_module_size;
 			std::wstring m_image_filename;
         };
     }

@@ -15,6 +15,8 @@ using std::begin;
 using std::end;
 using std::wstring;
 
+#include <iostream>
+
 TEST_CASE("parse image events", "[event_parsers_image]") {
     GIVEN("an image parser added to a running session") {
         controller ctrl(controller::kernel_name);
@@ -34,10 +36,10 @@ TEST_CASE("parse image events", "[event_parsers_image]") {
                 auto ptr_evt = evt.get();
                 auto ptr_image_evt = static_cast<ez_etw::parsed_events::image*>(ptr_evt);
                 auto filename = ptr_image_evt->get_image_filename();
-                const wchar_t* pp = filename.c_str();
-                ptrdiff_t t = filename.length() - dll.length();
-                wchar_t* p = &filename[t];
-                return std::wmemcmp(p, dll.c_str(), dll.length()) == 0;
+                //std::wcout << filename << std::endl;
+                ptrdiff_t dll_filename_start = filename.length() - dll.length();
+                wchar_t* image_filename_start = &filename[dll_filename_start];
+                return std::wmemcmp(image_filename_start, dll.c_str(), dll.length()) == 0;
             });
         }
         REQUIRE(ez_etw::status::success == ctrl.stop());
