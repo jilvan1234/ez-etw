@@ -24,7 +24,7 @@ event::type parsed_event::get_type() const {
 }
 
 bool parsed_event::set(std::stringstream& ss, const std::string& buffer, std::wstring& str) {
-    const streampos current_stream_pos = ss.tellg();
+    const uint64_t current_stream_pos = ss.tellg();
     const wchar_t* line_start = reinterpret_cast<const wchar_t*>(buffer.data() + current_stream_pos);
     const size_t line_len = wcslen(reinterpret_cast<const wchar_t*>(line_start));
     bool is_set = false;

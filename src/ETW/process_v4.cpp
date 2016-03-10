@@ -27,26 +27,26 @@ see: http://wutils.com/wmi/root/wmi/process_v4_typegroup1/
 */
 
 bool v4::set_sid(stringstream& ss, std::string& buffer_str, uintptr_t pointer_size) {
-	const streampos current_stream_pos = ss.tellg();
-	const size_t delta = sizeof(ULONG) + 2 * pointer_size;
+	const uint64_t current_stream_pos = ss.tellg();
 	const char* byte_ptr = buffer_str.data() + current_stream_pos;
 	size_t length = 0;
 	bool is_set = ez_etw::parsed_events::process::set_sid(byte_ptr, pointer_size, length);
 	if(is_set) {
-		ss.seekg(length + delta, std::ios::cur);
+        const size_t delta = sizeof(ULONG) + 2 * pointer_size;
+        ss.seekg(length + delta, std::ios::cur);
 		is_set &= ss.good();
 	}
 	return is_set;
 }
 
 bool v4::set_image_filename(std::stringstream& ss, std::string& buffer_str) {
-	const streampos current_stream_pos = ss.tellg();
+	const uint64_t current_stream_pos = ss.tellg();
 	const char* name_start = buffer_str.data() + current_stream_pos;
 	const size_t name_len = strlen(name_start);
 	bool is_set = false;
 	if(name_len > 0) {
 		copy(name_start, name_start + name_len, std::back_inserter(m_image_filename));
-		ss.seekg(name_len, std::ios::cur);
+		ss.seekg(name_len + 1, std::ios::cur);
 		is_set = ss.good();
 	}
 	return is_set;
@@ -67,7 +67,8 @@ v4::v4(const event& evt, unsigned long pointer_size)
 		stringstream ss(buffer_str);
 		unsigned int directory_table_base;	
 		unsigned int flags;
-		if(ss.read(reinterpret_cast<char*>(&m_unique_key), sizeof(m_unique_key)).good() &&
+        const char* p = buffer_str.data();
+        if(ss.read(reinterpret_cast<char*>(&m_unique_key), sizeof(m_unique_key)).good() &&
 			ss.read(reinterpret_cast<char*>(&m_pid), sizeof(m_pid)).good() &&
 			ss.read(reinterpret_cast<char*>(&m_parent_pid), sizeof(m_parent_pid)).good() &&
 			ss.read(reinterpret_cast<char*>(&m_session_id), sizeof(m_session_id)).good() &&

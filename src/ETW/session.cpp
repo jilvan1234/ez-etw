@@ -109,7 +109,6 @@ bool session::start() {
 			m_trace_thread = std::make_unique<std::thread>(trace_thread, m_trace_handle);
 		}		
 		g_trace_is_running = m_trace_thread != nullptr;
-
 	}
 	return g_trace_is_running;
 }
