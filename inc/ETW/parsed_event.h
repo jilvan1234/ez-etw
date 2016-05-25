@@ -16,10 +16,12 @@ namespace ez_etw {
         time_t get_timestamp() const;
 		status get_status() const;
         event::type get_type() const;
+        unsigned int get_version() const;
 	protected:
 		status m_status = incomplete;
 		unsigned long m_pointer_size;
         event::type m_type;
+        unsigned int m_version;
         bool set(std::stringstream& ss, const std::string& buffer, std::wstring& str);
     private:
         time_t m_timestamp;
