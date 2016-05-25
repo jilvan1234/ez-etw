@@ -8,10 +8,10 @@ namespace ez_etw {
         struct process : public event_parser {
             process();
             virtual ~process() = default;
+            enum version {
+                v4 = 4
+            };
         private:
-			enum version {
-				v4 = 4
-			};
             static const GUID guid;
             virtual std::pair<bool, std::shared_ptr<ez_etw::parsed_event>> parse_event(const std::shared_ptr<event>& evt) const;
         };
