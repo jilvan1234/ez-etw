@@ -87,3 +87,19 @@ v4::v4(const event& evt, unsigned long pointer_size)
 		m_status = unsupported_type;
 	}
 }
+
+uintptr_t v4::get_unique_key() const {
+    return m_unique_key;
+}
+
+unsigned int v4::get_session_id() const {
+    return m_session_id;
+}
+
+signed int v4::get_exit_status() const {
+    return m_exit_status;
+}
+
+const std::wstring& v4::get_command_line() const {
+    return m_command_line;
+}

@@ -10,6 +10,8 @@ namespace ez_etw {
             virtual ~process() = default;
 			const std::string& get_image_filename() const;
 			unsigned int get_pid() const;
+            unsigned int get_parent_pid() const;
+            const std::string& get_user_sid() const;
 		protected:
 			bool set_sid(const char* sid_start, uintptr_t pointer_size, size_t& user_sid_length);
 			unsigned int m_pid;

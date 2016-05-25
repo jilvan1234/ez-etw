@@ -10,6 +10,10 @@ namespace ez_etw {
             struct v4 : ez_etw::parsed_events::process {
 				v4(const event& evt, unsigned long pointer_size);
                 virtual ~v4() = default;
+                uintptr_t get_unique_key() const;
+                unsigned int get_session_id() const;
+                signed int get_exit_status() const;
+                const std::wstring& get_command_line() const;
 			private:
 				bool set_sid(std::stringstream& ss, std::string& buffer_str, uintptr_t pointer_size);
 				bool set_image_filename(std::stringstream& ss, std::string& buffer_str);
