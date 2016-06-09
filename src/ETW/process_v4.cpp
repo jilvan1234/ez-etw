@@ -57,7 +57,7 @@ bool v4::set_command_line(std::stringstream& ss, std::string& buffer_str) {
 }
 
 v4::v4(const event& evt, unsigned long pointer_size)
-:process(evt, pointer_size) {
+:process(evt, pointer_size), m_unique_key(0), m_session_id(0), m_exit_status(0) {
 	if(evt.get_type() == event::type::start ||
 		evt.get_type() == event::type::end ||
 		evt.get_type() == event::type::data_collection_start ||
@@ -79,10 +79,9 @@ v4::v4(const event& evt, unsigned long pointer_size)
 			set_image_filename(ss, buffer_str) &&
 			set_command_line(ss, buffer_str)) {
 			m_status = success;
-		}
-		//std::cout << static_cast<signed int>(m_session_id) << "|" << m_pid << "(" << m_parent_pid << ") " << " " << m_image_filename <<  std::endl;
-		//std::wcout << "\t" << m_command_line << std::endl;
-		//std::cout << "\t" << m_user_sid << std::endl;
+		} else {
+            m_status = incomplete;
+        }
 	} else {
 		m_status = unsupported_type;
 	}

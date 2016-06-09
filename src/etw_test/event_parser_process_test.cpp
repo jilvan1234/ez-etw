@@ -32,7 +32,7 @@ static std::pair<bool, event::type> find_target(std::shared_ptr<ez_etw::event_pa
             [process_id, process_name, &type](decltype(events)::const_reference evt) {
             auto ptr_evt = evt.get();
             auto ptr_process_evt = static_cast<ez_etw::parsed_events::process*>(ptr_evt);
-            type = ptr_evt->get_type();
+            type = ptr_evt->get_trace_type();
             return ptr_process_evt->get_image_filename() == process_name &&
                 ptr_process_evt->get_pid() == process_id;
         }) != end(events);

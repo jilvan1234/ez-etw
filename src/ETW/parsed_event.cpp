@@ -8,7 +8,7 @@ using std::copy;
 using std::back_inserter;
 
 parsed_event::parsed_event(const ez_etw::event& evt, unsigned long pointer_size)
-:m_timestamp(evt.get_timestamp()), m_pointer_size(pointer_size), m_type(evt.get_type()), m_version(evt.get_version()) {
+:m_timestamp(evt.get_timestamp()), m_pointer_size(pointer_size), m_trace_type(evt.get_type()), m_type(evt.get_guid()), m_version(evt.get_version()) {
 }
 
 time_t parsed_event::get_timestamp() const {
@@ -19,8 +19,16 @@ parsed_event::status parsed_event::get_status() const {
 	return m_status;
 }
 
-event::type parsed_event::get_type() const {
+event::type parsed_event::get_trace_type() const {
+    return m_trace_type;
+}
+
+const GUID& parsed_event::get_type() const {
     return m_type;
+}
+
+unsigned short parsed_event::get_version() const {
+    return m_version;
 }
 
 bool parsed_event::set(std::stringstream& ss, const std::string& buffer, std::wstring& str) {
@@ -37,8 +45,4 @@ bool parsed_event::set(std::stringstream& ss, const std::string& buffer, std::ws
         is_set = ss.good();
     }
     return is_set;	
-}
-
-unsigned int parsed_event::get_version() const {
-    return m_version;
 }

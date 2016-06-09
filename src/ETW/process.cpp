@@ -9,7 +9,7 @@ using std::copy;
 using std::back_inserter;
 
 process::process(const ez_etw::event& evt, unsigned long pointer_size)
-:parsed_event(evt, pointer_size) {
+:parsed_event(evt, pointer_size), m_pid(0) {
 }
 
 bool process::set_sid(const char* sid_start, uintptr_t pointer_size, size_t& user_sid_length) {
@@ -36,4 +36,12 @@ const std::string& process::get_image_filename() const {
 
 unsigned int process::get_pid() const {
 	return m_pid;
+}
+
+unsigned int process::get_parent_pid() const {
+    return m_parent_pid;
+}
+
+const std::string& process::get_user_sid() const {
+    return m_user_sid;
 }
