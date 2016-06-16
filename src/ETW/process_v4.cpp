@@ -57,7 +57,7 @@ bool v4::set_command_line(std::stringstream& ss, std::string& buffer_str) {
 }
 
 v4::v4(const event& evt, unsigned long pointer_size)
-:process(evt, pointer_size), m_unique_key(0), m_session_id(0), m_exit_status(0) {
+:process(evt, pointer_size), m_unique_key(0), m_session_id(0), m_exit_status(0), m_command_line(L"") {
 	if(evt.get_type() == event::type::start ||
 		evt.get_type() == event::type::end ||
 		evt.get_type() == event::type::data_collection_start ||
