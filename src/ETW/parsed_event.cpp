@@ -35,7 +35,7 @@ bool parsed_event::set(std::stringstream& ss, const std::string& buffer, std::ws
     const uint64_t current_stream_pos = ss.tellg();
     const wchar_t* line_start = reinterpret_cast<const wchar_t*>(buffer.data() + current_stream_pos);
     const size_t line_len = wcslen(reinterpret_cast<const wchar_t*>(line_start));
-    bool is_set = false;
+    bool is_set = true;
     if(line_len > 0) {
         const wchar_t* line_end = line_start + line_len;
         copy(line_start, line_end, back_inserter(str));
