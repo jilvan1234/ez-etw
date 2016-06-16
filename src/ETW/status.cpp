@@ -22,6 +22,9 @@ status ez_etw::to_status(unsigned int s) {
     case ERROR_ACCESS_DENIED:
         ret = status::access_denied;
         break;
+    case ERROR_WMI_INSTANCE_NOT_FOUND:
+        ret = status::not_found;
+        break;
     default:
         DebugBreak();
         break;

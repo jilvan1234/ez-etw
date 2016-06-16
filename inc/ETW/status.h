@@ -7,7 +7,8 @@ namespace ez_etw {
         invalid_argument,
         already_exist,
         not_running,
-        access_denied
+        access_denied,
+        not_found
     };
     status to_status(unsigned int status);
 }
