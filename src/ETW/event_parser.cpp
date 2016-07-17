@@ -4,6 +4,8 @@ using ez_etw::event_parser;
 using ez_etw::event;
 using ez_etw::parsed_event;
 using std::shared_ptr;
+using std::cbegin;
+using std::cend;
 
 event_parser::event_parser(const GUID& event_guid)
 :m_event_guid(event_guid) {
@@ -48,11 +50,7 @@ unsigned long event_parser::get_pointer_size() const {
 }
 
 const std::deque<std::shared_ptr<parsed_event>> event_parser::get_events() {
-	const size_t events_count = m_events.size();
-	std::deque<std::shared_ptr<parsed_event>> events;
-	for(size_t i = 0; i < events_count; ++i) {
-		events.emplace_back(std::move(m_events.front()));
-		m_events.pop_front();
-	}
+	std::deque<std::shared_ptr<parsed_event>> events(cbegin(m_events), cend(m_events));
+    m_events.clear();
 	return events;
 }

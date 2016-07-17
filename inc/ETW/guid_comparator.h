@@ -5,7 +5,7 @@
 
 namespace ez_etw {
     struct guid_comparator {
-        bool operator()(const GUID& left, const GUID& right);
+        bool operator()(const GUID& left, const GUID& right) const;
     };
 }
 
